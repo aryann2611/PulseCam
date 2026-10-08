@@ -1,0 +1,120 @@
+# Fine-tune TS-CAN on the Indian volunteers' recordings (POS pseudo-labels). Run from inside rPPG-Toolbox/:
+#   python ../toolbox_patch/install.py .
+#   PULSECAM_INIT=final_model_release/PURE_TSCAN.pth python main.py --config_file ../configs/train/PulseCam_finetune_TSCAN.yaml
+# Splits are by person: first 60% train, next 20% valid, last 20% test (e.g. P01-P12 / P13-P16 / P17-P20).
+# The toolbox's TEST score here is against pseudo-labels (circular) - judge E4 with eval/predict_own.py instead.
+BASE: ['']
+TOOLBOX_MODE: "train_and_test"
+TRAIN:
+  BATCH_SIZE: 4
+  EPOCHS: 10
+  LR: 1e-3                       # lower than from-scratch (9e-3): we are fine-tuning
+  MODEL_FILE_NAME: PulseCam_finetune_tscan
+  PLOT_LOSSES_AND_LR: True
+  DATA:
+    FS: 30
+    DATASET: PulseCam
+    DO_PREPROCESS: True
+    DATA_FORMAT: NDCHW
+    DATA_PATH: "../data/own/videos"
+    CACHED_PATH: "../data/own/cache"
+    EXP_DATA_NAME: ""
+    BEGIN: 0.0
+    END: 0.6
+    PREPROCESS:
+      DATA_TYPE: ['DiffNormalized','Standardized']
+      DATA_AUG: ['None']
+      LABEL_TYPE: DiffNormalized
+      USE_PSUEDO_PPG_LABEL: True
+      DO_CHUNK: True
+      CHUNK_LENGTH: 180
+      CROP_FACE:
+        DO_CROP_FACE: True
+        BACKEND: 'HC'
+        USE_LARGE_FACE_BOX: True
+        LARGE_BOX_COEF: 1.5
+        DETECTION:
+          DO_DYNAMIC_DETECTION: False
+          DYNAMIC_DETECTION_FREQUENCY: 30
+          USE_MEDIAN_FACE_BOX: False
+      RESIZE:
+        H: 72
+        W: 72
+VALID:
+  DATA:
+    FS: 30
+    DATASET: PulseCam
+    DO_PREPROCESS: True
+    DATA_FORMAT: NDCHW
+    DATA_PATH: "../data/own/videos"
+    CACHED_PATH: "../data/own/cache"
+    EXP_DATA_NAME: ""
+    BEGIN: 0.6
+    END: 0.8
+    PREPROCESS:
+      DATA_TYPE: ['DiffNormalized','Standardized']
+      DATA_AUG: ['None']
+      LABEL_TYPE: DiffNormalized
+      USE_PSUEDO_PPG_LABEL: True
+      DO_CHUNK: True
+      CHUNK_LENGTH: 180
+      CROP_FACE:
+        DO_CROP_FACE: True
+        BACKEND: 'HC'
+        USE_LARGE_FACE_BOX: True
+        LARGE_BOX_COEF: 1.5
+        DETECTION:
+          DO_DYNAMIC_DETECTION: False
+          DYNAMIC_DETECTION_FREQUENCY: 30
+          USE_MEDIAN_FACE_BOX: False
+      RESIZE:
+        H: 72
+        W: 72
+TEST:
+  METRICS: ['MAE', 'RMSE', 'MAPE', 'Pearson', 'SNR', 'BA']
+  USE_LAST_EPOCH: True
+  DATA:
+    FS: 30
+    DATASET: PulseCam
+    DO_PREPROCESS: True
+    DATA_FORMAT: NDCHW
+    DATA_PATH: "../data/own/videos"
+    CACHED_PATH: "../data/own/cache"
+    EXP_DATA_NAME: ""
+    BEGIN: 0.8
+    END: 1.0
+    PREPROCESS:
+      DATA_TYPE: ['DiffNormalized','Standardized']
+      DATA_AUG: ['None']
+      LABEL_TYPE: DiffNormalized
+      USE_PSUEDO_PPG_LABEL: True
+      DO_CHUNK: True
+      CHUNK_LENGTH: 180
+      CROP_FACE:
+        DO_CROP_FACE: True
+        BACKEND: 'HC'
+        USE_LARGE_FACE_BOX: True
+        LARGE_BOX_COEF: 1.5
+        DETECTION:
+          DO_DYNAMIC_DETECTION: False
+          DYNAMIC_DETECTION_FREQUENCY: 30
+          USE_MEDIAN_FACE_BOX: False
+      RESIZE:
+        H: 72
+        W: 72
+DEVICE: cuda:0
+NUM_OF_GPU_TRAIN: 1
+LOG:
+  PATH: runs/exp
+MODEL:
+  DROP_RATE: 0.2
+  NAME: Tscan
+  TSCAN:
+    FRAME_DEPTH: 10
+INFERENCE:
+  BATCH_SIZE: 4
+  EVALUATION_METHOD: "FFT"
+  EVALUATION_WINDOW:
+    USE_SMALLER_WINDOW: False
+    WINDOW_SIZE: 10
+  MODEL_PATH: ""

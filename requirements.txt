@@ -1,0 +1,12 @@
+# demo + evaluation only; training deps come from rPPG-Toolbox (setup.sh)
+numpy
+scipy
+matplotlib
+opencv-python
+mediapipe
+streamlit
+streamlit-webrtc
+pandas
+torch
+av
+pytest

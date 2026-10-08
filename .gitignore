@@ -1,0 +1,14 @@
+# PRIVACY: never commit faces, consent forms, ID-to-name list
+data/
+*.mp4
+*.avi
+*.mov
+consent/
+id_to_name*
+# big / generated
+rPPG-Toolbox/
+models/*.pth
+runs/
+__pycache__/
+.venv/
+.ipynb_checkpoints/
