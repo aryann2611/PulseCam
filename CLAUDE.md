@@ -40,4 +40,5 @@ E1 baselines (GREEN/ICA/CHROM/POS) vs deep on UBFC-rPPG · E2 train PURE/SCAMPS 
 - mediapipe ≥1.0 has no `mp.solutions`; the detector uses the Tasks API with `models/blaze_face_short_range.tflite` (auto-downloads if missing).
 - Toolbox pre-trained weights are `DataParallel` checkpoints (`module.` prefix); `TSCANPredictor` strips it. TS-CAN: 72×72 input, frame depth 10, outputs the *derivative* of the BVP (we `cumsum`).
 - `pulsecam/signal.py` is named like the stdlib module – run scripts from the repo root, never from inside `pulsecam/`.
-- Not yet verified on real faces/data (none available when written): face tracking, live demo end-to-end, `OwnLoader` inside the toolbox, `predict_own.py` on real clips. Verify these first when data arrives.
+- Smoke test 10 Oct 2026 on a partial UBFC subject1 video (1 subject, 34 overlapping windows – not a result): `HRTracker` face tracking + POS (MAE 2.6 BPM) and TS-CAN with the PURE weights (MAE 3.4 BPM) ran on a real face. That partial video was later deleted, so re-run before citing the numbers. Still unverified: live webcam demo end-to-end, `OwnLoader` inside the toolbox, `predict_own.py` on real clips.
+- UBFC videos: Google Drive blocked all `vid.avi` downloads on 10 Oct 2026 ("too many users" quota, up to 24 h). `data/ubfc/DATASET_2/` has ground-truth files only; get the videos in a browser or retry later.
