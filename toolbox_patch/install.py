@@ -47,3 +47,12 @@ line = "            self.model = torch.nn.DataParallel(self.model, device_ids=li
 hook = ('            if os.environ.get("PULSECAM_INIT"):  # fine-tune from pre-trained weights\n'
         '                self.model.load_state_dict(torch.load(os.environ["PULSECAM_INIT"], map_location=self.device))\n')
 patch("neural_methods/trainer/TscanTrainer.py", lambda s: s if "PULSECAM_INIT" in s else s.replace(line, line + hook, 1))
+
+# Colab has NumPy 2 / new SciPy: np.mat is gone, and gaussian_kde raises on tiny/degenerate samples (e.g. 2 subjects)
+for f in ("dataset/data_loader/BaseLoader.py", "dataset/data_loader/BP4DPlusBigSmallLoader.py",
+          "unsupervised_methods/methods/ICA_POH.py"):
+    patch(f, lambda s: s.replace("np.mat(", "np.asmatrix("))
+patch("evaluation/BlandAltmanPy.py", lambda s: s if "_safe_kde" in s else s.replace("gaussian_kde(xy)(xy)", "_safe_kde(xy)").replace(
+    "from scipy.stats import gaussian_kde\n",
+    "from scipy.stats import gaussian_kde\n\n\ndef _safe_kde(xy):\n    try:\n        return gaussian_kde(xy)(xy)\n"
+    "    except Exception:  # too few / identical points: plot without density colour\n        return np.ones(xy.shape[1])\n", 1))
