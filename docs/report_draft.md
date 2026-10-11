@@ -29,10 +29,27 @@ Pipeline: video at 30 fps → MediaPipe face box and skin regions → crop 72×7
 Metrics: MAE (main), RMSE, MAPE, Pearson r, SNR, Bland-Altman. Team target: beat every classical baseline on E1; MAE < 5 BPM on still, well-lit clips.
 Data collection: TODO – N volunteers, Monk shades covered, reference device(s) used, camera settings, four 1-minute conditions (see `docs/recording_protocol.md`).
 
-### Pipeline check (not a result)
-On the first 43 s of one UBFC-rPPG subject (34 overlapping 10 s windows), POS gave MAE 2.6 BPM and TS-CAN (PURE weights) 3.4 BPM against the oximeter HR. One subject only; this shows the code runs on a real face and nothing more. TODO: the partial video used here was deleted – re-run on the full UBFC videos before quoting any number, or drop this paragraph.
+Where we deviate from the plan above (say so in the report): E1/E2 use the toolbox's *released* checkpoints (TS-CAN trained on PURE, and on SCAMPS) instead of models we trained; there are no own recordings yet, so E3-E5 are empty.
 
-## 5. Results – TODO (E1–E5 from `results/tables/`, `results/plots/`)
+## 5. Results
+### E1 + E2 - UBFC-rPPG (10 of 42 subjects, 12 Oct 2026; `eval/ubfc_eval.py`)
+Method: face -> skin ROIs / 72x72 crop -> method -> bandpass 0.7-3.0 Hz -> FFT peak. Every 10 s window (step 5 s, 109 windows per method) is scored against the HR of the ground-truth PPG in the same window. Subjects 1, 3, 4, 5, 8, 9, 10, 11, 12, 13. Table: `results/tables/E1_E2_ubfc.csv`; plots: `results/plots/E1_E2_mae.png`, `BA_ubfc_*.png`.
+
+| Method | MAE window (BPM) | RMSE | Pearson | MAE per video (median) |
+|---|---|---|---|---|
+| GREEN | 24.05 | 34.70 | 0.07 | 17.76 |
+| ICA | 4.16 | 12.68 | 0.75 | 1.73 |
+| POS | 2.84 | 10.55 | 0.82 | 0.87 |
+| CHROM | 1.08 | 3.56 | 0.98 | 0.35 |
+| **TS-CAN, trained on PURE** | **0.70** | 1.73 | 1.00 | 0.41 |
+| TS-CAN, trained on SCAMPS | 21.99 | 32.95 | 0.14 | 17.17 |
+
+- **RQ1 (E1):** the deep model (TS-CAN) has the lowest window MAE and beats every classical baseline (GREEN, ICA, POS, CHROM). CHROM is close (1.08 vs 0.70) and is slightly better per video (0.35 vs 0.41), so on these ten clean, still, well-lit subjects the margin is small. The team target (beat every baseline; MAE < 5 BPM on still, well-lit clips) is met on this subset.
+- **RQ2 (E2):** TS-CAN trained on real video (PURE) transfers to UBFC almost perfectly (0.70 BPM), but the same model trained on synthetic SCAMPS fails (21.99 BPM). Part of this gap may be our preprocessing (the toolbox paper reports a much smaller SCAMPS gap) - check before claiming it.
+- Caveats: ten subjects; UBFC is easy (indoor, still, uncompressed video); window MAE is dominated by a few windows where a method locks onto the wrong frequency (RMSE much larger than MAE for ICA and POS); GREEN is the plain green channel with no motion or colour handling.
+- Not trained by us: no own training run was done, so "train on UBFC subjects" in E1 was not carried out.
+- Pipeline sanity: a lossy re-encoded copy of one UBFC clip made POS read 62 BPM instead of 107 - video compression erases the pulse, so keep original files for the own recordings.
+- E3, E4, E5: **not done** - they need volunteer recordings, consent and a reference device.
 
 ## 6. Ethics
 Written consent before recording (purpose, what is recorded, storage, right to withdraw); India's DPDP Act 2023; ethics-committee question put to the project guide (TODO: answer); videos only on a private team drive, never on GitHub; IDs (P01…) not names, with the ID→name list kept separately; faces shown only with written permission; raw videos deleted if the consent form says so; volunteers told PulseCam is not medical and to see a doctor about any heart concern.

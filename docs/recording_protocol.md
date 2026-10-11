@@ -10,7 +10,7 @@
    | Slow head movement | `move` | turn head slowly left–right |
    | Talking | `talk` | read a paragraph aloud |
    | Dim light | `dim` | lamp off / curtain partly closed |
-5. **Camera:** highest quality available, 30 fps; turn OFF beauty filters, HDR, portrait mode (they erase the pulse). Phone: lock exposure/focus if possible.
+5. **Camera:** highest quality available, 30 fps; turn OFF beauty filters, HDR, portrait mode (they erase the pulse). Phone: lock exposure/focus if possible. **Never re-encode or "compress for sharing" before analysis:** re-encoding a clean UBFC clip to a default-quality mp4 made POS read 62 BPM instead of 107 (12 Oct 2026 test) because compression smooths away the tiny colour change. Copy the original file as it came off the camera.
 6. **Reference HR during each clip:** oximeter or smartwatch reading every 10 s, or one manual 60-second wrist count. State the method in `reference_method`.
 7. Save under one name:
    - `data/own/videos/P01_still.mp4`

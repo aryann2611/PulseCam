@@ -22,4 +22,6 @@ def overlay(bgr, state):
         v = (b - b.mean()) / (b.std() + 1e-9)
         pts = np.stack([np.linspace(0, W - 1, len(v)), H - 40 - 25 * np.clip(v, -2, 2)], 1).astype(np.int32)
         cv2.polylines(bgr, [pts], False, (0, 255, 0), 2)
+    cv2.putText(bgr, "Research prototype - not a medical device", (10, bgr.shape[0] - 10),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
     return bgr

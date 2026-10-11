@@ -6,7 +6,7 @@ Contactless heart rate from webcam face video (rPPG). Research prototype, **not 
 PulseCam/
 ├── pulsecam/        # signal (bandpass/FFT/POS), metrics, face (MediaPipe), tscan, pipeline (HRTracker)
 ├── app/             # app.py = Streamlit demo, cv_app.py = OpenCV fallback / backup-video player
-├── eval/            # predict_own.py, report.py (E3/E4/E5), parse_logs.py (E1/E2)
+├── eval/            # ubfc_eval.py (E1/E2), predict_own.py + report.py (E3/E4/E5), parse_logs.py
 ├── toolbox_patch/   # OwnLoader + install.py for rPPG-Toolbox
 ├── configs/train/   # PulseCam_finetune_TSCAN.yaml
 ├── notebooks/       # pulsecam_colab.ipynb (training runbook)
@@ -36,7 +36,15 @@ streamlit run app/app.py             # fallback: python app/cv_app.py  (or --sou
 python -m pytest tests -q
 ```
 
-### E1 — classical baselines + deep models on UBFC-rPPG (set DATA_PATH in each yaml first)
+### E1 + E2 — recommended: our own scorer (one script, works anywhere)
+```bash
+python eval/ubfc_eval.py --root data/ubfc --max 10      # needs subject*/vid.avi + ground_truth.txt
+# -> results/tables/E1_E2_ubfc.csv (+ _windows.csv), results/plots/E1_E2_mae.png, BA_ubfc_*.png
+python eval/ubfc_eval.py --from-csv results/tables/E1_E2_ubfc_windows.csv   # rebuild tables/plots only
+```
+Uses the toolbox's released PURE/SCAMPS TS-CAN weights and its GREEN/ICA/CHROM code; POS is ours. On Colab: `pip install mediapipe`, then keep exactly one OpenCV wheel (`opencv-python-headless==4.10.0.84`).
+
+### E1 — alternative: the toolbox's own `main.py` (its cached preprocessing gave bogus numbers on Colab; always check the sample count in the log; set DATA_PATH in each yaml first)
 ```bash
 cd rPPG-Toolbox
 # classical: GREEN/ICA/CHROM/POS (edit METHOD list in the yaml)

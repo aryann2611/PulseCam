@@ -50,7 +50,7 @@ patch("neural_methods/trainer/TscanTrainer.py", lambda s: s if "PULSECAM_INIT" i
 
 # Colab has NumPy 2 / new SciPy: np.mat is gone, and gaussian_kde raises on tiny/degenerate samples (e.g. 2 subjects)
 for f in ("dataset/data_loader/BaseLoader.py", "dataset/data_loader/BP4DPlusBigSmallLoader.py",
-          "unsupervised_methods/methods/ICA_POH.py"):
+          "unsupervised_methods/methods/ICA_POH.py", "unsupervised_methods/methods/POS_WANG.py"):
     patch(f, lambda s: s.replace("np.mat(", "np.asmatrix("))
 patch("evaluation/BlandAltmanPy.py", lambda s: s if "_safe_kde" in s else s.replace("gaussian_kde(xy)(xy)", "_safe_kde(xy)").replace(
     "from scipy.stats import gaussian_kde\n",

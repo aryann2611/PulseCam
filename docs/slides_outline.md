@@ -6,7 +6,7 @@
 5. Pipeline diagram (video → face/ROI → model → bandpass → FFT)
 6. Models: POS baseline, TS-CAN; pseudo-label fine-tuning
 7. Data: UBFC-rPPG, PURE/SCAMPS, own recordings (no faces shown without written permission)
-8. E1 + E2 results (table) – TODO
+8. E1 + E2 results: TS-CAN (PURE) 0.70 BPM MAE vs CHROM 1.08, POS 2.84, ICA 4.16, GREEN 24.05; TS-CAN (SCAMPS) 21.99 - 10 UBFC subjects, released weights (`results/tables/E1_E2_ubfc.csv`, `results/plots/E1_E2_mae.png`)
 9. E3 robustness + E4 skin-tone MAE before/after fine-tune – TODO
 10. Live demo (backup video ready; reference device next to PulseCam)
 11. Ethics and limitations
