@@ -40,6 +40,7 @@ ap.add_argument("--max", type=int, default=0, help="only the first N subjects (b
 ap.add_argument("--win", type=float, default=10, help="window length, s")
 ap.add_argument("--step", type=float, default=5, help="window step, s")
 ap.add_argument("--from-csv", help="skip the videos: rebuild tables/plots from an earlier E1_E2_ubfc_windows.csv")
+ap.add_argument("--partial", help="CSV rewritten after every subject; if it exists the run resumes and skips those subjects")
 a = ap.parse_args()
 T, P = "results/tables", "results/plots"
 os.makedirs(T, exist_ok=True)
@@ -76,8 +77,14 @@ subs = sorted(glob.glob(os.path.join(a.root, "subject*")), key=lambda s: int(re.
 subs = [s for s in subs if os.path.exists(s + "/vid.avi") and os.path.exists(s + "/ground_truth.txt")]
 subs = [] if a.from_csv else subs[:a.max] if a.max else subs
 rows = []
+if a.partial and os.path.exists(a.partial):
+    rows = pd.read_csv(a.partial).to_dict("records")
+done = {r["subject"] for r in rows}
 for s in subs:
     sid = os.path.basename(s)
+    if sid in done:
+        print(f"{sid}: already in {a.partial}, skipped", flush=True)
+        continue
     fs, rgb, crops = read_video(s + "/vid.avi")
     ppg = np.loadtxt(s + "/ground_truth.txt")[0]
     n, w, st = min(len(rgb), len(ppg)), int(a.win * fs), int(a.step * fs)
@@ -94,6 +101,9 @@ for s in subs:
                 print("  skip", sid, m, t0, type(e).__name__)
                 continue
             rows.append(dict(subject=sid, method=m, t0_s=round(t0 / fs, 1), pred_hr=bpm, ref_hr=gt, snr=snr))
+    if a.partial:
+        pd.DataFrame(rows).to_csv(a.partial, index=False)
+        print(f"{sid}: saved ({len(rows)} rows)", flush=True)
 
 d = pd.read_csv(a.from_csv) if a.from_csv else pd.DataFrame(rows)
 d.to_csv(f"{T}/E1_E2_ubfc_windows.csv", index=False)
