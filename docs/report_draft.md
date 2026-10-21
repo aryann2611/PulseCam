@@ -29,26 +29,36 @@ Pipeline: video at 30 fps → MediaPipe face box and skin regions → crop 72×7
 Metrics: MAE (main), RMSE, MAPE, Pearson r, SNR, Bland-Altman. Team target: beat every classical baseline on E1; MAE < 5 BPM on still, well-lit clips.
 Data collection: TODO – N volunteers, Monk shades covered, reference device(s) used, camera settings, four 1-minute conditions (see `docs/recording_protocol.md`).
 
-Where we deviate from the plan above (say so in the report): E1/E2 use the toolbox's *released* checkpoints (TS-CAN trained on PURE, and on SCAMPS) instead of models we trained; there are no own recordings yet, so E3-E5 are empty.
+Where we deviate from the plan above (say so in the report): E1/E2 use the toolbox's *released* checkpoints (TS-CAN trained on PURE, and on SCAMPS) instead of models we trained; there are no own recordings yet, so E3-E5 are empty; the only training we did is the UBFC fine-tune below, which did not beat the released weights.
 
 ## 5. Results
-### E1 + E2 - UBFC-rPPG (10 of 42 subjects, 12 Oct 2026; `eval/ubfc_eval.py`)
-Method: face -> skin ROIs / 72x72 crop -> method -> bandpass 0.7-3.0 Hz -> FFT peak. Every 10 s window (step 5 s, 109 windows per method) is scored against the HR of the ground-truth PPG in the same window. Subjects 1, 3, 4, 5, 8, 9, 10, 11, 12, 13. Table: `results/tables/E1_E2_ubfc.csv`; plots: `results/plots/E1_E2_mae.png`, `BA_ubfc_*.png`.
+### E1 + E2 - UBFC-rPPG (all 42 subjects, 21 Oct 2026; `eval/ubfc_eval.py`)
+Method: face -> skin ROIs / 72x72 crop -> method -> bandpass 0.7-3.0 Hz -> FFT peak. Every 10 s window (step 5 s, 490 windows per method) is scored against the HR of the ground-truth PPG in the same window; "per video" is the median over each video, 42 videos. Table: `results/tables/E1_E2_ubfc.csv`. (An earlier 10-subject run, 12 Oct, is kept in `results/tables/E1_E2_ubfc_*_10subjects.csv`; the Bland-Altman plots in `results/plots/` are still from that 10-subject run until `eval/ubfc_eval.py --from-csv <ubfc42_partial.csv>` is re-run on the full window data, which is on the team Drive.)
 
 | Method | MAE window (BPM) | RMSE | Pearson | MAE per video (median) |
 |---|---|---|---|---|
-| GREEN | 24.05 | 34.70 | 0.07 | 17.76 |
-| ICA | 4.16 | 12.68 | 0.75 | 1.73 |
-| POS | 2.84 | 10.55 | 0.82 | 0.87 |
-| CHROM | 1.08 | 3.56 | 0.98 | 0.35 |
-| **TS-CAN, trained on PURE** | **0.70** | 1.73 | 1.00 | 0.41 |
-| TS-CAN, trained on SCAMPS | 21.99 | 32.95 | 0.14 | 17.17 |
+| GREEN | 19.38 | 29.97 | 0.28 | 16.77 |
+| ICA | 6.73 | 15.85 | 0.72 | 3.65 |
+| POS | 4.50 | 12.94 | 0.79 | 2.57 |
+| CHROM | **2.00** | **6.03** | **0.94** | 0.72 |
+| **TS-CAN, trained on PURE** | 2.01 | 7.62 | 0.92 | **0.67** |
+| TS-CAN, trained on SCAMPS | 14.05 | 24.42 | 0.49 | 10.27 |
 
-- **RQ1 (E1):** the deep model (TS-CAN) has the lowest window MAE and beats every classical baseline (GREEN, ICA, POS, CHROM). CHROM is close (1.08 vs 0.70) and is slightly better per video (0.35 vs 0.41), so on these ten clean, still, well-lit subjects the margin is small. The team target (beat every baseline; MAE < 5 BPM on still, well-lit clips) is met on this subset.
-- **RQ2 (E2):** TS-CAN trained on real video (PURE) transfers to UBFC almost perfectly (0.70 BPM), but the same model trained on synthetic SCAMPS fails (21.99 BPM). Part of this gap may be our preprocessing (the toolbox paper reports a much smaller SCAMPS gap) - check before claiming it.
-- Caveats: ten subjects; UBFC is easy (indoor, still, uncompressed video); window MAE is dominated by a few windows where a method locks onto the wrong frequency (RMSE much larger than MAE for ICA and POS); GREEN is the plain green channel with no motion or colour handling.
-- Not trained by us: no own training run was done, so "train on UBFC subjects" in E1 was not carried out.
+- **RQ1 (E1):** TS-CAN (PURE weights) clearly beats GREEN, ICA and POS, but **ties CHROM**: 2.01 vs 2.00 BPM per window, and CHROM is a little better on RMSE (6.03 vs 7.62) and correlation (0.94 vs 0.92); per video TS-CAN is 0.67 vs 0.72, which is not a meaningful gap. The team target "beat every classical baseline" is therefore **not met** on the full UBFC set. The first run on 10 subjects (0.70 vs 1.08 BPM) looked better only because of which subjects were in the sample. "MAE < 5 BPM on still, well-lit clips" is met (2.0 BPM per window).
+- **RQ2 (E2):** TS-CAN trained on real video (PURE) transfers well to UBFC (2.01 BPM), but the same model trained on synthetic SCAMPS does not (14.05 BPM per window). Part of this gap may be our preprocessing (the toolbox paper reports a much smaller SCAMPS gap) - unchecked.
+- Caveats: UBFC is easy (indoor, still, uncompressed video); window MAE is dominated by a few windows where a method locks onto the wrong frequency (RMSE much larger than MAE for ICA, POS and TS-CAN); GREEN is the plain green channel with no motion or colour handling; the deep models are the toolbox's released checkpoints.
 - Pipeline sanity: a lossy re-encoded copy of one UBFC clip made POS read 62 BPM instead of 107 - video compression erases the pulse, so keep original files for the own recordings.
+
+### Fine-tuning TS-CAN on UBFC (21 Oct 2026; `eval/finetune_tscan.py`)
+Start from the released PURE weights; split by person: 30 train, 6 validation, 6 test people (`results/tables/finetune_split.csv`); keep the epoch with the lowest validation MAE; score the 6 test people (68 windows) with the original and the fine-tuned weights. Tables: `results/tables/finetune_ubfc_test*.csv`.
+
+| Model | MAE window (BPM) | RMSE | MAE per video |
+|---|---|---|---|
+| Released PURE weights | 1.60 | 6.73 | 0.89 |
+| Fine-tuned, lr 5e-6, 3 epochs | 1.58 | 6.74 | 0.85 |
+| Fine-tuned, lr 5e-5, 6 epochs | 1.60 (kept the released weights: every fine-tuned epoch was worse on validation, 1.58 -> 2.04-2.97) | 6.73 | 0.89 |
+
+- Result: **no meaningful gain.** 1.60 vs 1.58 BPM over 68 windows is noise, and a larger learning rate overfits the 30 training people. We therefore did not install a fine-tuned model: `models/best_tscan.pth` does not exist and the demo keeps using the released `PURE_TSCAN.pth`. On UBFC alone the released model is already near its ceiling; a real gain would have to come from own recordings with other skin tones (E4), which are not done.
 - E3, E4, E5: **not done** - they need volunteer recordings, consent and a reference device.
 
 ## 6. Ethics

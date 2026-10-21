@@ -40,7 +40,7 @@ with tab_res:
         if plots:
             pick = st.selectbox("Bland-Altman plot", plots, format_func=lambda x: x[len("BA_ubfc_"):-4])
             st.image(os.path.join(P, pick), width=420)
-        st.caption("10 UBFC subjects; deep models are the toolbox's released checkpoints. Details in docs/report_draft.md.")
+        st.caption("All 42 UBFC subjects (the Bland-Altman plots are still from the first 10); deep models are the toolbox's released checkpoints. Details in docs/report_draft.md.")
     else:
         st.info("No E1/E2 table yet. Run: python eval/ubfc_eval.py --root data/ubfc")
     if os.path.exists(LOG):
