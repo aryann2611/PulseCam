@@ -3,6 +3,25 @@
 Student deep-learning project: estimate resting heart rate (BPM) + pulse waveform from webcam face video (rPPG), live.
 **Research prototype. NOT a medical device – never present it as diagnostic.** Source of truth: the project spec PDF (`PulseCam – Project Specification`, 7 Oct 2026). Budget ₹0: free tools only.
 
+## When the user says "continue" - read this first (updated 21 Oct 2026)
+Do not re-explain the project or ask what to do. Run `git status` and `git log -3`, take the first item below that is possible without people/hardware, finish it end to end (tests, commit, push), then report in a few lines: what is done, what is still blocked on people. **Never fake people/hardware work** (recordings, consent forms, reference device, E3-E5, live webcam). Report honestly: TS-CAN only ties CHROM on 42 UBFC subjects, and UBFC fine-tuning gave no gain.
+
+**Where we are:** E1/E2 done on all 42 UBFC subjects (`results/tables/E1_E2_ubfc.csv`); UBFC fine-tune done, no gain, released `PURE_TSCAN.pth` stays the default model; local dashboard fixed; all pushed. Full numbers in Gotchas below.
+
+**Next actions, in order:**
+1. **Refresh the 42-subject Bland-Altman plots.** `results/plots/BA_ubfc_*.png` are still from the first 10 subjects. The 42-subject window data is `MyDrive/PulseCam/ubfc42_partial.csv` (plots + tables also in `MyDrive/PulseCam/results_42subjects/`). Downloads are blocked for Claude, so ask the user to put the file in the repo folder (any path, e.g. `colab_upload/`), then `.venv\Scripts\python eval/ubfc_eval.py --from-csv <file>`; check that `results/tables/E1_E2_ubfc.csv` still shows CHROM 2.0 / TS-CAN-PURE 2.01 window MAE, then commit plots.
+2. **Refresh the online dashboard** (artifact URL in Session notes): upload that CSV as the new `windows` file, replace `e1e2` and `status` data, and patch the hard-coded headline in `files/index.html` ("TS-CAN trained on PURE has the lowest heart-rate error ... CHROM") because CHROM and TS-CAN now tie. Use the ArtifactData tool; read the artifact type's instructions first.
+3. **Why does SCAMPS-trained TS-CAN score 14 BPM** (toolbox paper: a few)? Compare our `face_crop` (MediaPipe box, 1.5x, 72x72) with the toolbox's preprocessing (HC face box, DiffNormalized + Standardized chunks of 180) on a few subjects on Colab. Report the finding either way.
+4. **Verify `OwnLoader` inside the toolbox** on Colab (the Windows venv lacks h5py and other toolbox deps).
+5. **Final report + slides** from `docs/report_draft.md` and `docs/slides_outline.md`: fill the TODO sections, answer RQ1-RQ2 from E1/E2, mark RQ3-RQ4 as not done.
+6. **Only when the user says volunteer data exists:** follow `docs/recording_protocol.md`, `eval/predict_own.py`, E3/E4/E5, fine-tune on own recordings (`PULSECAM_INIT`, person-wise split), and install `models/best_tscan.pth` only if it beats the released weights on held-out people.
+
+**Working rules learned the hard way:**
+- Use `.venv\Scripts\python`; run `.venv\Scripts\python -m pytest tests -q` before committing. Commit messages end with the attribution line from the session's system reminder.
+- Colab: the user must click the Drive permission popup. Click inside the terminal pane before every `type` (otherwise keystrokes hit the notebook and insert cells). Use `nohup` for long jobs, and a background `sleep N` Bash command to wait. Long `browser_batch` wait lists time out. Details in Gotchas and in memory `pulsecam-colab-gotchas`.
+- Do not start a localhost receiver to move data out of the browser (denied by the safety check); results go to Drive and the user downloads them.
+- If the user asks for a train/fine-tune, keep the person-wise split and never claim an improvement that is within noise.
+
 ## Hard rules
 - **Privacy:** never commit/upload faces, consent forms or the ID→name list. `data/` is gitignored; keep it that way. Use IDs (P01…), never names, in files.
 - **Splits are by person:** one person's videos live in exactly one of train/valid/test. `OwnLoader.split_raw_data` and `eval/predict_own.py --only` enforce/serve this.
