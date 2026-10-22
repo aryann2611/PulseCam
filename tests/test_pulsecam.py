@@ -2,7 +2,7 @@
 import numpy as np
 
 from pulsecam.metrics import mae, rmse, summary
-from pulsecam.signal import fft_bpm, pos_bvp
+from pulsecam.signal import fft_bpm, pos_bvp, smooth_detrend
 
 FS, BPM = 30, 72
 t = np.arange(10 * FS) / FS
@@ -17,6 +17,12 @@ def test_fft_bpm_finds_pulse_in_noise():
 def test_fft_bpm_ignores_out_of_band_drift():
     bpm, _ = fft_bpm(5 * np.sin(2 * np.pi * 0.2 * t) + np.sin(2 * np.pi * BPM / 60 * t), FS)  # 12 BPM drift
     assert abs(bpm - BPM) < 1.5
+
+
+def test_smooth_detrend_removes_drift_keeps_pulse():
+    pulse = np.sin(2 * np.pi * BPM / 60 * t)
+    out = smooth_detrend(pulse + 3 * t + 0.05 * t ** 2)  # linear + quadratic drift
+    assert np.abs(out - pulse)[FS:-FS].max() < 0.1 and abs(fft_bpm(out, FS)[0] - BPM) < 1.5  # edges bend, interior is clean
 
 
 def test_pos_recovers_pulse_from_rgb():

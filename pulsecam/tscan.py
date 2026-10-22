@@ -4,6 +4,8 @@ import os
 
 import numpy as np
 
+from pulsecam.signal import smooth_detrend
+
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 TOOLBOX = os.path.join(ROOT, "rPPG-Toolbox")
 
@@ -34,11 +36,12 @@ class TSCANPredictor:
         d = np.concatenate([d / d.std(), np.zeros_like(x[:1])])  # same layout as the toolbox
         return np.nan_to_num(d)
 
-    def predict(self, face):
+    def predict(self, face, detrend=False):
         x = face.astype(np.float32)
         x = x[: len(x) // self.depth * self.depth]
         std = np.nan_to_num((x - x.mean()) / (x.std() + 1e-7))
         inp = np.concatenate([self._diff_norm(x), std], -1).transpose(0, 3, 1, 2)
         with self.torch.no_grad():
             out = self.net(self.torch.from_numpy(np.ascontiguousarray(inp)))
-        return np.cumsum(out.numpy().ravel())  # model predicts the first difference of the BVP
+        bvp = np.cumsum(out.numpy().ravel())  # model predicts the first difference of the BVP
+        return smooth_detrend(bvp) if detrend else bvp  # detrend=True: toolbox-style drift removal, still being validated on all 42 UBFC subjects (eval/scamps_check.py); default stays the behaviour behind the E1/E2 table
