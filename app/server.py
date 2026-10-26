@@ -171,6 +171,7 @@ app = Starlette(routes=[
     Route("/api/job/{jid}", job),
     WebSocketRoute("/ws/live", live),
     Mount("/plots", StaticFiles(directory=PLOTS, check_dir=False)),
+    Mount("/static", StaticFiles(directory=os.path.join(HERE, "web", "static"))),
 ])
 
 if __name__ == "__main__":
