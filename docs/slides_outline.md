@@ -7,7 +7,7 @@
 6. Models: POS baseline, TS-CAN; pseudo-label fine-tuning
 7. Data: UBFC-rPPG, PURE/SCAMPS, own recordings (no faces shown without written permission)
 8. E1 + E2 results (all 42 UBFC subjects, released weights): TS-CAN (PURE) 2.01 BPM MAE = CHROM 2.00, better than POS 4.50, ICA 6.73, GREEN 19.38; TS-CAN (SCAMPS) 14.05. Honest point: deep model ties the best classical method, it does not beat it. UBFC fine-tune: no gain (1.60 vs 1.58 BPM on 6 unseen people) (`results/tables/E1_E2_ubfc.csv`, `finetune_ubfc_test.csv`)
-9. E3 robustness + E4 skin-tone MAE before/after fine-tune – TODO
-10. Live demo (backup video ready; reference device next to PulseCam)
+9. E3 robustness + E4 skin-tone MAE before/after fine-tune – **not done**: no volunteer recordings, consent forms or reference device were collected during the project; UBFC-only fine-tune attempted instead (no gain: 1.58 vs 1.60 BPM on 6 held-out people)
+10. Live demo – 52 s backup render of a UBFC clip ready (`results/backup_demo_ubfc_subject1.mp4`); live webcam run and a longer volunteer backup video not yet tried by a person; no reference device available to show side by side
 11. Ethics and limitations
 12. Conclusions per RQ, future work, thanks
