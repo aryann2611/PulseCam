@@ -21,7 +21,7 @@ from starlette.routing import Mount, Route, WebSocketRoute
 from starlette.staticfiles import StaticFiles
 from starlette.websockets import WebSocketDisconnect
 
-from pulsecam.face import rois
+from pulsecam.face import FaceTracker, rois
 from pulsecam.pipeline import HRTracker, analyze_video
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -36,6 +36,8 @@ def load_tscan():
     try:
         from pulsecam.tscan import TSCANPredictor
         p = TSCANPredictor()
+        # measured on this laptop: 2 threads 4.2 s per estimate, 4 threads 9.1 s and starves frame capture
+        p.torch.set_num_threads(2)
         p.predict(np.random.rand(300, 72, 72, 3) * 255)  # warm-up: the first call takes seconds and would freeze the live view
         return p
     except Exception as e:  # torch or weights missing -> POS only
@@ -45,6 +47,7 @@ def load_tscan():
 
 print("Loading models...")
 TSCAN = load_tscan()
+FaceTracker()  # the first detector in a process takes ~3.5 s to create, later ones ~0.3 s
 
 
 def model(method):
@@ -136,7 +139,7 @@ async def job(request):
 async def live(ws):
     """Browser sends a JSON config, then raw frames: float64 timestamp (s) + RGBA pixels. Replies with the state."""
     await ws.accept()
-    tracker, w, h = HRTracker(background=True), 0, 0
+    tracker, w, h = await asyncio.to_thread(HRTracker, "pos", None, True), 0, 0
     try:
         while True:
             msg = await ws.receive()
