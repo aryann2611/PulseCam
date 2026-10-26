@@ -1,4 +1,4 @@
-"""Overlay drawing shared by the Streamlit demo and the OpenCV fallback (BGR frames)."""
+"""Overlay drawing for the OpenCV fallback / backup-video renderer (BGR frames)."""
 import cv2
 import numpy as np
 

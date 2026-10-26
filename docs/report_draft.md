@@ -22,7 +22,7 @@ Pipeline: video at 30 fps → MediaPipe face box and skin regions → crop 72×7
 - TS-CAN takes 72×72 frames and outputs the derivative of the pulse waveform, which we integrate (cumulative sum).
 - Training follows the toolbox: start from its pre-trained weights; train and validate on one dataset, test on another; each person's videos in exactly one split.
 - Own recordings have an HR number but no waveform, so fine-tuning uses POS pseudo-labels from the toolbox. Fine-tuning volunteers are never the test volunteers.
-- Demo: 10 s rolling buffer (300 frames), one estimate per second, median of the last 5 shown; a "Hold still" warning appears on motion, darkness or low SNR. Runs locally with Streamlit; OpenCV fallback.
+- Demo: 10 s rolling buffer (300 frames), one estimate per second, median of the last 5 shown; a "Hold still" warning appears on motion, darkness or low SNR. Runs locally as a small web app (`app/server.py`, Starlette): a 30 s live measurement from the webcam, or an uploaded video file; OpenCV fallback. The browser sends uncompressed frames, so video compression cannot erase the pulse. On a laptop CPU one TS-CAN estimate takes about 3 s, so the live view runs it in a background thread (frame capture never pauses) and the reading updates every ~3-4 s instead of every second.
 
 ## 4. Experiments
 | # | Train | Test | Answers |

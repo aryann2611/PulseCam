@@ -1,2 +1,2 @@
 @echo off
-.venv\Scripts\python -m streamlit run app/app.py
+.venv\Scripts\python app\server.py

@@ -15,9 +15,11 @@ MIN_SNR = -3.0      # dB
 
 
 class HRTracker:
-    def __init__(self, method="pos", tscan=None):
-        self.method, self.tscan = method, tscan  # tscan: TSCANPredictor or None
-        self.face, self.lock = FaceTracker(), threading.Lock()
+    def __init__(self, method="pos", tscan=None, background=False):
+        """background=True (live use): estimate in a thread so slow TS-CAN on CPU never stalls frame capture;
+        an estimate due while one is running is skipped. Offline runs keep the default for repeatable results."""
+        self.method, self.tscan, self.background, self.busy = method, tscan, background, False
+        self.face, self.lock = FaceTracker(), threading.RLock()
         self.buf = deque()  # (t, rgb_mean, crop72, centre_x, centre_y, width, brightness)
         self.hist, self.last_est = deque(maxlen=MEDIAN_N), -1e9
         self.state = dict(hr=None, raw=None, bvp=np.zeros(0), snr=None, warn="Looking for a face...", box=None, progress=0.0)
@@ -40,26 +42,34 @@ class HRTracker:
             self.state["progress"] = min(span / WIN_S, 1.0)
             if span < WIN_S - 0.5:
                 self.state["warn"] = f"Analyzing... {span:.0f}/{WIN_S} s"
-            elif t - self.last_est >= STEP_S:
+            elif t - self.last_est >= STEP_S and not self.busy:
                 self.last_est = t
-                self._estimate()
+                if self.background:
+                    self.busy = True
+                    threading.Thread(target=self._estimate, args=(list(self.buf),), daemon=True).start()
+                else:
+                    self._estimate(list(self.buf))
             return self.state
 
-    def _estimate(self):
-        ts = np.array([b[0] for b in self.buf])
-        idx = np.searchsorted(ts, np.linspace(ts[0], ts[-1], WIN_S * FS)).clip(0, len(ts) - 1)  # resample to 30 fps
-        win = [self.buf[i] for i in idx]
-        if self.method == "tscan" and self.tscan:
-            bvp = self.tscan.predict(np.stack([b[2] for b in win]))
-        else:
-            bvp = pos_bvp(np.stack([b[1] for b in win]), FS)
-        bpm, snr = fft_bpm(bvp, FS)
-        last = [b for b in self.buf if b[0] > ts[-1] - 2]
-        move = np.hypot(np.ptp([b[3] for b in last]), np.ptp([b[4] for b in last])) / last[-1][5]
-        warn = ("Hold still" if move > MAX_MOTION else "Too dark" if np.mean([b[6] for b in win]) < MIN_BRIGHT
-                else "Weak signal - hold still, face the light" if snr < MIN_SNR else "")
-        self.hist.append(bpm)
-        self.state.update(hr=float(np.median(self.hist)), raw=bpm, bvp=bvp, snr=snr, warn=warn)
+    def _estimate(self, buf):
+        try:
+            ts = np.array([b[0] for b in buf])
+            idx = np.searchsorted(ts, np.linspace(ts[0], ts[-1], WIN_S * FS)).clip(0, len(ts) - 1)  # resample to 30 fps
+            win = [buf[i] for i in idx]
+            if self.method == "tscan" and self.tscan:
+                bvp = self.tscan.predict(np.stack([b[2] for b in win]))
+            else:
+                bvp = pos_bvp(np.stack([b[1] for b in win]), FS)
+            bpm, snr = fft_bpm(bvp, FS)
+            last = [b for b in buf if b[0] > ts[-1] - 2]
+            move = np.hypot(np.ptp([b[3] for b in last]), np.ptp([b[4] for b in last])) / last[-1][5]
+            warn = ("Hold still" if move > MAX_MOTION else "Too dark" if np.mean([b[6] for b in win]) < MIN_BRIGHT
+                    else "Weak signal - hold still, face the light" if snr < MIN_SNR else "")
+            with self.lock:
+                self.hist.append(bpm)
+                self.state.update(hr=float(np.median(self.hist)), raw=bpm, bvp=bvp, snr=snr, warn=warn)
+        finally:
+            self.busy = False
 
 
 def analyze_video(path, method="pos", tscan=None, on_progress=None):

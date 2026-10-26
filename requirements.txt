@@ -4,9 +4,9 @@ scipy
 matplotlib
 opencv-python
 mediapipe
-streamlit
-streamlit-webrtc
+starlette
+uvicorn
+websockets
 pandas
 torch
-av
 pytest

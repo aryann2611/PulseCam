@@ -5,7 +5,7 @@ Contactless heart rate from webcam face video (rPPG). Research prototype, **not 
 ```
 PulseCam/
 ├── pulsecam/        # signal (bandpass/FFT/POS), metrics, face (MediaPipe), tscan, pipeline (HRTracker)
-├── app/             # app.py = Streamlit demo, cv_app.py = OpenCV fallback / backup-video player
+├── app/             # server.py + web/index.html = web app (live + upload), cv_app.py = OpenCV fallback / backup-video player
 ├── eval/            # ubfc_eval.py (E1/E2), predict_own.py + report.py (E3/E4/E5), parse_logs.py
 ├── toolbox_patch/   # OwnLoader + install.py for rPPG-Toolbox
 ├── configs/train/   # PulseCam_finetune_TSCAN.yaml
@@ -32,7 +32,8 @@ conda activate rppg-toolbox
 python -m venv .venv; .venv\Scripts\activate
 pip install -r requirements.txt      # torch is optional: without it the demo uses POS only
 python toolbox_patch/install.py rPPG-Toolbox
-streamlit run app/app.py             # fallback: python app/cv_app.py  (or --source backup.mp4)
+python app/server.py                 # or .\run.bat; opens http://127.0.0.1:8000 (Go live / Upload video / Results / Status)
+                                     # fallback: python app/cv_app.py  (or --source backup.mp4)
 python -m pytest tests -q
 ```
 
