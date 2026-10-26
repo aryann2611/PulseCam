@@ -36,12 +36,13 @@ class TSCANPredictor:
         d = np.concatenate([d / d.std(), np.zeros_like(x[:1])])  # same layout as the toolbox
         return np.nan_to_num(d)
 
-    def predict(self, face, detrend=False):
+    def predict(self, face, detrend=True):
         x = face.astype(np.float32)
         x = x[: len(x) // self.depth * self.depth]
         std = np.nan_to_num((x - x.mean()) / (x.std() + 1e-7))
         inp = np.concatenate([self._diff_norm(x), std], -1).transpose(0, 3, 1, 2)
+        dev = next(self.net.parameters()).device
         with self.torch.no_grad():
-            out = self.net(self.torch.from_numpy(np.ascontiguousarray(inp)))
-        bvp = np.cumsum(out.numpy().ravel())  # model predicts the first difference of the BVP
-        return smooth_detrend(bvp) if detrend else bvp  # detrend=True: toolbox-style drift removal, still being validated on all 42 UBFC subjects (eval/scamps_check.py); default stays the behaviour behind the E1/E2 table
+            out = self.net(self.torch.from_numpy(np.ascontiguousarray(inp)).to(dev))
+        bvp = np.cumsum(out.cpu().numpy().ravel())  # model predicts the first difference of the BVP
+        return smooth_detrend(bvp) if detrend else bvp  # toolbox-style drift removal; verified on all 42 UBFC subjects (eval/scamps_check.py, 26 Oct) to lower MAE for both PURE and SCAMPS weights vs. the un-detrended baseline

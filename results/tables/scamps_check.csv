@@ -1,0 +1,11 @@
+variant,model,MAE,median,n
+A new10,PURE,1.8,0.44,490
+A new10,SCAMPS,12.83,1.73,490
+A0 old10,PURE,2.01,0.44,490
+A0 old10,SCAMPS,14.05,1.75,490
+B ours+tbpost,PURE,1.69,0.0,490
+B ours+tbpost,SCAMPS,12.54,3.39,490
+C tb10,PURE,1.4,0.0,483
+C tb10,SCAMPS,10.42,0.0,483
+D tbvideo,PURE,1.28,0.0,42
+D tbvideo,SCAMPS,8.62,0.87,42

@@ -1,0 +1,5 @@
+method,level,n,MAE,RMSE,MAPE,Pearson,SNR
+TSCAN_PURE,window,490,1.8,6.8,2.02,0.93,2.2
+TSCAN_PURE,video,42,0.72,1.06,0.8,1.0,
+TSCAN_SCAMPS,window,490,12.83,22.84,12.74,0.5,-1.82
+TSCAN_SCAMPS,video,42,8.94,15.8,8.59,0.7,
