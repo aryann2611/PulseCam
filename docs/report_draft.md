@@ -38,8 +38,8 @@ Data collection: **not done.** No volunteers were recorded (no signed consents c
 Where we deviate from the plan above (say so in the report): E1/E2 use the toolbox's *released* checkpoints (TS-CAN trained on PURE, and on SCAMPS) instead of models we trained; there are no own recordings yet, so E3-E5 are empty; the only training we did is the UBFC fine-tune below, which did not beat the released weights.
 
 ## 5. Results
-### E1 + E2 - UBFC-rPPG (all 42 subjects, 21 Oct 2026; `eval/ubfc_eval.py`)
-Method: face -> skin ROIs / 72x72 crop -> method -> bandpass 0.7-3.0 Hz -> FFT peak. Every 10 s window (step 5 s, 490 windows per method) is scored against the HR of the ground-truth PPG in the same window; "per video" is the median over each video, 42 videos. Table: `results/tables/E1_E2_ubfc.csv`. (An earlier 10-subject run, 12 Oct, is kept in `results/tables/E1_E2_ubfc_*_10subjects.csv`; the Bland-Altman plots in `results/plots/` are still from that 10-subject run until `eval/ubfc_eval.py --from-csv <ubfc42_partial.csv>` is re-run on the full window data, which is on the team Drive.)
+### E1 + E2 - UBFC-rPPG (all 42 subjects, 21 Oct 2026, TS-CAN re-scored 26 Oct; `eval/ubfc_eval.py`)
+Method: face -> skin ROIs / 72x72 crop -> method -> bandpass 0.7-3.0 Hz -> FFT peak. Every 10 s window (step 5 s, 490 windows per method) is scored against the HR of the ground-truth PPG in the same window; "per video" is the median over each video, 42 videos. Table: `results/tables/E1_E2_ubfc.csv`; Bland-Altman plots: `results/plots/BA_ubfc_*.png` (all 42 subjects, 490 windows per method). An earlier 10-subject run, 12 Oct, is kept in `results/tables/E1_E2_ubfc_*_10subjects.csv`.
 
 | Method | MAE window (BPM) | RMSE | Pearson | MAE per video (median) |
 |---|---|---|---|---|
