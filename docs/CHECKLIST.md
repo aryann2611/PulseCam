@@ -6,7 +6,7 @@
 - [ ] Draft consent form and show it to the project guide (`docs/consent_form.md`)
 
 # Final deliverables (all nine due at submission)
-- [ ] Code repository on GitHub (private until submission) with README on setup + running each experiment
+- [x] Code repository on GitHub (private until submission) with README on setup + running each experiment
 - [ ] Trained weights for the best baseline-beating model (`models/best_tscan.pth`, shared via Drive) - best model is still the toolbox's released `PURE_TSCAN.pth` (used by default); we fine-tuned on UBFC (person-wise split, 21 Oct) and it did NOT beat the released weights (1.58 vs 1.60 BPM on 6 unseen people), so no `best_tscan.pth` yet - needs own recordings
 - [ ] Own-recordings dataset + `data/own/metadata.csv` (stored privately)
 - [x] Results tables E1–E2 and Bland-Altman plots (`results/`) - **E1 and E2 done on all 42 UBFC subjects**; BA plots still from a 10-subject sample, pending the full-window CSV; E3-E5 need own recordings (not done)
