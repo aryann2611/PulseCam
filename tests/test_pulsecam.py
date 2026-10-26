@@ -35,3 +35,15 @@ def test_pos_recovers_pulse_from_rgb():
 def test_metrics():
     assert mae([70, 80], [72, 76]) == 3 and abs(rmse([70, 80], [72, 76]) - np.sqrt(10)) < 1e-9
     assert summary([60, 70, 80], [60, 70, 80])["Pearson"] == 1.0
+
+
+def test_analyze_video_without_face_gives_no_reading(tmp_path):
+    import cv2
+    from pulsecam.pipeline import analyze_video
+    path = str(tmp_path / "noise.avi")
+    w = cv2.VideoWriter(path, cv2.VideoWriter_fourcc(*"MJPG"), FS, (64, 64))
+    for _ in range(FS):
+        w.write(rng.integers(0, 255, (64, 64, 3), dtype=np.uint8))
+    w.release()
+    ests, state = analyze_video(path)
+    assert ests == [] and state["warn"] == "No face found"

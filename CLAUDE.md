@@ -31,7 +31,7 @@ Demo: 10 s rolling buffer (300 frames), estimate every 1 s, show median of last 
 | Path | What |
 |---|---|
 | `pulsecam/` | `signal.py` (bandpass, FFT BPM, POS), `metrics.py`, `face.py` (MediaPipe Tasks detector), `tscan.py` (TS-CAN inference using the toolbox model class), `pipeline.py` (`HRTracker`), `draw.py` |
-| `app/app.py` | Streamlit + streamlit-webrtc dashboard (`streamlit run app/app.py`): Live tab (BPM, signal quality, trend, E5 logging), Results tab (E1/E2 from `results/tables`), Status tab (docs/CHECKLIST.md); `app/cv_app.py` = OpenCV fallback / plays a backup video |
+| `app/app.py` | Streamlit + streamlit-webrtc dashboard (`streamlit run app/app.py`, or `.\run.bat`): Go live tab (BPM, signal quality, trend, E5 logging), Upload video tab (`pipeline.analyze_video` on an uploaded clip, temp file deleted after; 2 GB limit in `.streamlit/config.toml`), Results tab (E1/E2 from `results/tables`), Status tab (docs/CHECKLIST.md); `app/cv_app.py` = OpenCV fallback / plays a backup video |
 | `eval/` | `ubfc_eval.py` (E1/E2 on UBFC, our own scoring), `predict_own.py` (E3/E4/E5 predictions), `report.py` (tables + Bland-Altman), `parse_logs.py` (toolbox logs → table; see gotcha on toolbox cache) |
 | `toolbox_patch/` | `OwnLoader.py` + `install.py` (idempotent patch of `rPPG-Toolbox/`: dataset `PulseCam`, `PULSECAM_INIT` fine-tune hook) |
 | `configs/train/` | `PulseCam_finetune_TSCAN.yaml` (POS pseudo-label fine-tune) |

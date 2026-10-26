@@ -12,11 +12,10 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-import cv2
 import numpy as np
 import pandas as pd
 
-from pulsecam.pipeline import HRTracker
+from pulsecam.pipeline import analyze_video
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--method", choices=["pos", "tscan"], default="pos")
@@ -47,15 +46,7 @@ for path in sorted(glob.glob(os.path.join(a.videos, "*.mp4"))):
         print("skip (no reference):", stem)
         continue
     ref = float(pd.read_csv(hr_file)["hr_bpm"].mean())
-    cap, tracker, ests, n = cv2.VideoCapture(path), HRTracker(a.method, tscan), [], 0
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30
-    ok, bgr = cap.read()
-    while ok:
-        n += 1
-        tracker.update(cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB), n / fps)
-        if tracker.last_est == n / fps:  # a new 10 s window was scored on this frame
-            ests.append(tracker.state["raw"])
-        ok, bgr = cap.read()
+    ests = [bpm for _, bpm in analyze_video(path, a.method, tscan)[0]]
     if not ests:
         print("skip (clip shorter than 10 s or no face):", stem)
         continue

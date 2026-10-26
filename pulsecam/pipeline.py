@@ -2,6 +2,7 @@
 import threading
 from collections import deque
 
+import cv2
 import numpy as np
 
 from .face import FaceTracker, face_crop, roi_mean
@@ -19,7 +20,7 @@ class HRTracker:
         self.face, self.lock = FaceTracker(), threading.Lock()
         self.buf = deque()  # (t, rgb_mean, crop72, centre_x, centre_y, width, brightness)
         self.hist, self.last_est = deque(maxlen=MEDIAN_N), -1e9
-        self.state = dict(hr=None, raw=None, bvp=np.zeros(0), snr=None, warn="Looking for a face...", box=None)
+        self.state = dict(hr=None, raw=None, bvp=np.zeros(0), snr=None, warn="Looking for a face...", box=None, progress=0.0)
 
     def update(self, rgb, t):
         """Feed one RGB frame (uint8) with timestamp t (s). Returns the current state dict."""
@@ -36,8 +37,9 @@ class HRTracker:
                 self.buf.popleft()
             self.state["box"] = box
             span = self.buf[-1][0] - self.buf[0][0]
+            self.state["progress"] = min(span / WIN_S, 1.0)
             if span < WIN_S - 0.5:
-                self.state["warn"] = f"Warming up ({span:.0f}/{WIN_S} s)"
+                self.state["warn"] = f"Analyzing... {span:.0f}/{WIN_S} s"
             elif t - self.last_est >= STEP_S:
                 self.last_est = t
                 self._estimate()
@@ -58,3 +60,22 @@ class HRTracker:
                 else "Weak signal - hold still, face the light" if snr < MIN_SNR else "")
         self.hist.append(bpm)
         self.state.update(hr=float(np.median(self.hist)), raw=bpm, bvp=bvp, snr=snr, warn=warn)
+
+
+def analyze_video(path, method="pos", tscan=None, on_progress=None):
+    """Run the tracker over a video file. Returns ([(t_s, bpm) per scored window], final state)."""
+    cap = cv2.VideoCapture(path)
+    fps = cap.get(cv2.CAP_PROP_FPS) or FS
+    total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    tracker, ests, n = HRTracker(method, tscan), [], 0
+    ok, bgr = cap.read()
+    while ok:
+        n += 1
+        tracker.update(cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB), n / fps)
+        if tracker.last_est == n / fps:  # a new 10 s window was scored on this frame
+            ests.append((n / fps, tracker.state["raw"]))
+        if on_progress and total and n % 15 == 0:
+            on_progress(min(n / total, 1.0))
+        ok, bgr = cap.read()
+    cap.release()
+    return ests, tracker.state
