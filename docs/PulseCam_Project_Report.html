@@ -53,6 +53,7 @@
   .shot { border: 1px solid #b9c3cf; }
   .figs { display: flex; gap: 10px; justify-content: center; break-inside: avoid; margin-top: .6em; }
   .figs img { flex: 0 0 calc(50% - 5px); width: calc(50% - 5px); min-width: 0; height: auto; box-sizing: border-box; }
+  .figs.three img { flex-basis: calc(33.3% - 7px); width: calc(33.3% - 7px); }
   .cap { font-size: 9.5pt; color: #333; text-align: left; margin: .1em 0 .7em; }
   .toc { list-style: none; margin: 0; padding: 0; font-size: 10.5pt; line-height: 1.3; }
   .toc li { display: flex; margin: .1em 0; }
@@ -67,10 +68,9 @@
   .refs li { margin: .35em 0; text-align: left; }
   dl { margin: .4em 0; } dt { break-after: avoid; font-weight: 700; font-family: Arial, sans-serif; font-size: 10.5pt; margin-top: .5em; } dd { margin: 0 0 0 1.4em; }
   .front h2 { text-align: left; }
-  .tight { font-size: 9pt; } .tight th, .tight td { padding: 3px 5px; } .tight th { font-size: 8.5pt; }
-  /* university format: every front-matter page and chapter starts on a new page */
+  /* front-matter pages, References and the appendices start on a new page; chapters run on (35-page limit) */
   .front h2, h2.ch { break-before: page; margin-top: 0; }
-  .front h2.same { break-before: auto; margin-top: 1.4em; }
+  .front h2.same, h2.ch.flow { break-before: auto; margin-top: 1.4em; }
 </style>
 </head>
 <body>
@@ -123,7 +123,7 @@
   <tr><td>Ruchi Singh<br>202310101150025</td><td>Aryan Singh<br>202310101150038</td><td>Ananya Dwivedi<br>202310101150039</td></tr>
 </table>
 
-<h2>Acknowledgement</h2>
+<h2 class="same">Acknowledgement</h2>
 <p>We thank our faculty guide, <b>Er. Arun Maurya</b>, for his guidance during this project, and Shri Ramswaroop Memorial University for the opportunity to carry it out as part of PROJECT-II. We are grateful to the researchers who made their work openly available: the authors of the UBFC-rPPG, PURE and SCAMPS datasets and of the rPPG-Toolbox, on which our evaluation is built. The project uses only free and open-source tools, which made it possible to complete it with no budget.</p>
 
 <h2>Abstract</h2>
@@ -132,13 +132,13 @@
 <p><b>Keywords:</b> remote photoplethysmography, heart rate, TS-CAN, deep learning, computer vision, skin-tone fairness, UBFC-rPPG.</p>
 
 <h2>Contents</h2>
-<ul class="toc"><li class="ch"><span class="t">1. Introduction</span><span class="dots"></span><span class="pg">9</span></li><li class="sec"><span class="t">1.1 Background</span><span class="dots"></span><span class="pg">9</span></li><li class="sec"><span class="t">1.2 Problem Statement</span><span class="dots"></span><span class="pg">9</span></li><li class="sec"><span class="t">1.3 Motivation</span><span class="dots"></span><span class="pg">9</span></li><li class="sec"><span class="t">1.4 Objectives</span><span class="dots"></span><span class="pg">9</span></li><li class="sec"><span class="t">1.5 Research Questions</span><span class="dots"></span><span class="pg">10</span></li><li class="sec"><span class="t">1.6 Scope</span><span class="dots"></span><span class="pg">10</span></li><li class="sec"><span class="t">1.7 Organisation of the Report</span><span class="dots"></span><span class="pg">10</span></li><li class="ch"><span class="t">2. Literature Review</span><span class="dots"></span><span class="pg">11</span></li><li class="sec"><span class="t">2.1 Remote Photoplethysmography</span><span class="dots"></span><span class="pg">11</span></li><li class="sec"><span class="t">2.2 Classical Methods</span><span class="dots"></span><span class="pg">11</span></li><li class="sec"><span class="t">2.3 Deep-Learning Methods</span><span class="dots"></span><span class="pg">11</span></li><li class="sec"><span class="t">2.4 Datasets</span><span class="dots"></span><span class="pg">11</span></li><li class="sec"><span class="t">2.5 The rPPG-Toolbox</span><span class="dots"></span><span class="pg">12</span></li><li class="sec"><span class="t">2.6 Skin-Tone Fairness</span><span class="dots"></span><span class="pg">12</span></li><li class="sec"><span class="t">2.7 Research Gap</span><span class="dots"></span><span class="pg">12</span></li><li class="ch"><span class="t">3. System Analysis and Requirements</span><span class="dots"></span><span class="pg">13</span></li><li class="sec"><span class="t">3.1 Users and Use Cases</span><span class="dots"></span><span class="pg">13</span></li><li class="sec"><span class="t">3.2 Functional Requirements</span><span class="dots"></span><span class="pg">13</span></li><li class="sec"><span class="t">3.3 Non-Functional Requirements</span><span class="dots"></span><span class="pg">13</span></li><li class="sec"><span class="t">3.4 Hardware and Software Requirements</span><span class="dots"></span><span class="pg">14</span></li><li class="sec"><span class="t">3.5 Feasibility</span><span class="dots"></span><span class="pg">14</span></li><li class="ch"><span class="t">4. Theory and Methodology</span><span class="dots"></span><span class="pg">15</span></li><li class="sec"><span class="t">4.1 Signal Model</span><span class="dots"></span><span class="pg">15</span></li><li class="sec"><span class="t">4.2 The POS Algorithm</span><span class="dots"></span><span class="pg">15</span></li><li class="sec"><span class="t">4.3 The TS-CAN Network</span><span class="dots"></span><span class="pg">15</span></li><li class="sec"><span class="t">4.4 Band-Pass Filter and Heart-Rate Estimate</span><span class="dots"></span><span class="pg">15</span></li><li class="sec"><span class="t">4.5 Signal Quality</span><span class="dots"></span><span class="pg">16</span></li><li class="sec"><span class="t">4.6 Processing Pipeline</span><span class="dots"></span><span class="pg">16</span></li><li class="sec"><span class="t">4.7 Face Detection and Skin Regions</span><span class="dots"></span><span class="pg">16</span></li><li class="sec"><span class="t">4.8 Live Tracker</span><span class="dots"></span><span class="pg">16</span></li><li class="sec"><span class="t">4.9 Training and Evaluation Protocol</span><span class="dots"></span><span class="pg">17</span></li><li class="sec"><span class="t">4.10 Experiments</span><span class="dots"></span><span class="pg">17</span></li><li class="sec"><span class="t">4.11 Evaluation Metrics</span><span class="dots"></span><span class="pg">17</span></li><li class="ch"><span class="t">5. System Design</span><span class="dots"></span><span class="pg">19</span></li><li class="sec"><span class="t">5.1 Architecture</span><span class="dots"></span><span class="pg">19</span></li><li class="sec"><span class="t">5.2 Module Design</span><span class="dots"></span><span class="pg">19</span></li><li class="sec"><span class="t">5.3 Live Measurement Flow</span><span class="dots"></span><span class="pg">20</span></li><li class="sec"><span class="t">5.4 Interfaces</span><span class="dots"></span><span class="pg">20</span></li><li class="sec"><span class="t">5.5 Data Design</span><span class="dots"></span><span class="pg">20</span></li><li class="sec"><span class="t">5.6 User Interface Design</span><span class="dots"></span><span class="pg">21</span></li><li class="ch"><span class="t">6. Implementation</span><span class="dots"></span><span class="pg">23</span></li><li class="sec"><span class="t">6.1 Development Environment</span><span class="dots"></span><span class="pg">23</span></li><li class="sec"><span class="t">6.2 Face Module</span><span class="dots"></span><span class="pg">23</span></li><li class="sec"><span class="t">6.3 Signal Processing</span><span class="dots"></span><span class="pg">23</span></li><li class="sec"><span class="t">6.4 TS-CAN Wrapper</span><span class="dots"></span><span class="pg">23</span></li><li class="sec"><span class="t">6.5 Heart-Rate Tracker</span><span class="dots"></span><span class="pg">24</span></li><li class="sec"><span class="t">6.6 Web Server</span><span class="dots"></span><span class="pg">24</span></li><li class="sec"><span class="t">6.7 Front End</span><span class="dots"></span><span class="pg">24</span></li><li class="sec"><span class="t">6.8 Evaluation Scripts</span><span class="dots"></span><span class="pg">25</span></li><li class="sec"><span class="t">6.9 Toolbox Patch and Fine-Tuning</span><span class="dots"></span><span class="pg">25</span></li><li class="sec"><span class="t">6.10 Problems Met and How They Were Solved</span><span class="dots"></span><span class="pg">25</span></li><li class="ch"><span class="t">7. Experiments and Results</span><span class="dots"></span><span class="pg">27</span></li><li class="sec"><span class="t">7.1 Experimental Setup</span><span class="dots"></span><span class="pg">27</span></li><li class="sec"><span class="t">7.2 E1 and E2: Methods on UBFC-rPPG</span><span class="dots"></span><span class="pg">27</span></li><li class="sec"><span class="t">7.3 Agreement with the Reference (Bland–Altman)</span><span class="dots"></span><span class="pg">28</span></li><li class="sec"><span class="t">7.4 Answer to RQ1: Deep versus Classical</span><span class="dots"></span><span class="pg">29</span></li><li class="sec"><span class="t">7.5 Answer to RQ2: Cross-Dataset Transfer</span><span class="dots"></span><span class="pg">29</span></li><li class="sec"><span class="t">7.6 Fine-Tuning on UBFC</span><span class="dots"></span><span class="pg">29</span></li><li class="sec"><span class="t">7.7 Experiments Not Run: E3, E4 and E5</span><span class="dots"></span><span class="pg">30</span></li><li class="sec"><span class="t">7.8 Summary Against the Team Targets</span><span class="dots"></span><span class="pg">30</span></li><li class="ch"><span class="t">8. Testing and Validation</span><span class="dots"></span><span class="pg">31</span></li><li class="sec"><span class="t">8.1 Unit Tests</span><span class="dots"></span><span class="pg">31</span></li><li class="sec"><span class="t">8.2 Integration and System Tests</span><span class="dots"></span><span class="pg">31</span></li><li class="sec"><span class="t">8.3 Performance Measurements</span><span class="dots"></span><span class="pg">32</span></li><li class="sec"><span class="t">8.4 What Has Not Been Tested</span><span class="dots"></span><span class="pg">32</span></li><li class="ch"><span class="t">9. Ethics, Data Collection and Limitations</span><span class="dots"></span><span class="pg">33</span></li><li class="sec"><span class="t">9.1 Ethics and Privacy</span><span class="dots"></span><span class="pg">33</span></li><li class="sec"><span class="t">9.2 Planned Data Collection</span><span class="dots"></span><span class="pg">33</span></li><li class="sec"><span class="t">9.3 Limitations</span><span class="dots"></span><span class="pg">34</span></li><li class="ch"><span class="t">10. Conclusion and Future Scope</span><span class="dots"></span><span class="pg">35</span></li><li class="sec"><span class="t">10.1 Conclusion</span><span class="dots"></span><span class="pg">35</span></li><li class="sec"><span class="t">10.2 Contributions</span><span class="dots"></span><span class="pg">35</span></li><li class="sec"><span class="t">10.3 Lessons Learned</span><span class="dots"></span><span class="pg">35</span></li><li class="sec"><span class="t">10.4 Future Scope</span><span class="dots"></span><span class="pg">36</span></li><li class="ch"><span class="t">References</span><span class="dots"></span><span class="pg">37</span></li><li class="ch"><span class="t">Appendix A. User Manual</span><span class="dots"></span><span class="pg">38</span></li><li class="sec"><span class="t">A.1 Starting the application</span><span class="dots"></span><span class="pg">38</span></li><li class="sec"><span class="t">A.2 Measuring your heart rate</span><span class="dots"></span><span class="pg">38</span></li><li class="sec"><span class="t">A.3 Analysing a recorded video</span><span class="dots"></span><span class="pg">38</span></li><li class="sec"><span class="t">A.4 Results and Status tabs</span><span class="dots"></span><span class="pg">38</span></li><li class="ch"><span class="t">Appendix B. Commands to Reproduce the Results</span><span class="dots"></span><span class="pg">39</span></li><li class="ch"><span class="t">Appendix C. Repository Layout</span><span class="dots"></span><span class="pg">40</span></li><li class="ch"><span class="t">Appendix D. Project Timeline</span><span class="dots"></span><span class="pg">41</span></li><li class="ch"><span class="t">Appendix E. Glossary</span><span class="dots"></span><span class="pg">42</span></li><li class="ch"><span class="t">Appendix F. Per-Subject Results on UBFC-rPPG</span><span class="dots"></span><span class="pg">43</span></li><li class="ch"><span class="t">Appendix G. Selected Source Code</span><span class="dots"></span><span class="pg">45</span></li><li class="sec"><span class="t">G.1 pulsecam/signal.py</span><span class="dots"></span><span class="pg">45</span></li><li class="sec"><span class="t">G.2 pulsecam/tscan.py</span><span class="dots"></span><span class="pg">46</span></li></ul>
+<ul class="toc"><li class="ch"><span class="t">1. Introduction</span><span class="dots"></span><span class="pg">8</span></li><li class="sec"><span class="t">1.1 Background</span><span class="dots"></span><span class="pg">8</span></li><li class="sec"><span class="t">1.2 Problem Statement</span><span class="dots"></span><span class="pg">8</span></li><li class="sec"><span class="t">1.3 Motivation</span><span class="dots"></span><span class="pg">8</span></li><li class="sec"><span class="t">1.4 Objectives</span><span class="dots"></span><span class="pg">8</span></li><li class="sec"><span class="t">1.5 Research Questions</span><span class="dots"></span><span class="pg">9</span></li><li class="sec"><span class="t">1.6 Scope</span><span class="dots"></span><span class="pg">9</span></li><li class="sec"><span class="t">1.7 Organisation of the Report</span><span class="dots"></span><span class="pg">9</span></li><li class="ch"><span class="t">2. Literature Review</span><span class="dots"></span><span class="pg">9</span></li><li class="sec"><span class="t">2.1 Remote Photoplethysmography</span><span class="dots"></span><span class="pg">9</span></li><li class="sec"><span class="t">2.2 Classical Methods</span><span class="dots"></span><span class="pg">10</span></li><li class="sec"><span class="t">2.3 Deep-Learning Methods</span><span class="dots"></span><span class="pg">10</span></li><li class="sec"><span class="t">2.4 Datasets</span><span class="dots"></span><span class="pg">10</span></li><li class="sec"><span class="t">2.5 The rPPG-Toolbox</span><span class="dots"></span><span class="pg">10</span></li><li class="sec"><span class="t">2.6 Skin-Tone Fairness</span><span class="dots"></span><span class="pg">11</span></li><li class="sec"><span class="t">2.7 Research Gap</span><span class="dots"></span><span class="pg">11</span></li><li class="ch"><span class="t">3. System Analysis and Requirements</span><span class="dots"></span><span class="pg">11</span></li><li class="sec"><span class="t">3.1 Users and Use Cases</span><span class="dots"></span><span class="pg">11</span></li><li class="sec"><span class="t">3.2 Functional Requirements</span><span class="dots"></span><span class="pg">11</span></li><li class="sec"><span class="t">3.3 Non-Functional Requirements</span><span class="dots"></span><span class="pg">12</span></li><li class="sec"><span class="t">3.4 Hardware and Software Requirements</span><span class="dots"></span><span class="pg">12</span></li><li class="sec"><span class="t">3.5 Feasibility</span><span class="dots"></span><span class="pg">12</span></li><li class="ch"><span class="t">4. Theory and Methodology</span><span class="dots"></span><span class="pg">13</span></li><li class="sec"><span class="t">4.1 Signal Model</span><span class="dots"></span><span class="pg">13</span></li><li class="sec"><span class="t">4.2 The POS Algorithm</span><span class="dots"></span><span class="pg">13</span></li><li class="sec"><span class="t">4.3 The TS-CAN Network</span><span class="dots"></span><span class="pg">13</span></li><li class="sec"><span class="t">4.4 Band-Pass Filter and Heart-Rate Estimate</span><span class="dots"></span><span class="pg">14</span></li><li class="sec"><span class="t">4.5 Signal Quality</span><span class="dots"></span><span class="pg">14</span></li><li class="sec"><span class="t">4.6 Processing Pipeline</span><span class="dots"></span><span class="pg">14</span></li><li class="sec"><span class="t">4.7 Face Detection and Skin Regions</span><span class="dots"></span><span class="pg">14</span></li><li class="sec"><span class="t">4.8 Live Tracker</span><span class="dots"></span><span class="pg">15</span></li><li class="sec"><span class="t">4.9 Training and Evaluation Protocol</span><span class="dots"></span><span class="pg">15</span></li><li class="sec"><span class="t">4.10 Experiments</span><span class="dots"></span><span class="pg">15</span></li><li class="sec"><span class="t">4.11 Evaluation Metrics</span><span class="dots"></span><span class="pg">16</span></li><li class="ch"><span class="t">5. System Design</span><span class="dots"></span><span class="pg">16</span></li><li class="sec"><span class="t">5.1 Architecture</span><span class="dots"></span><span class="pg">16</span></li><li class="sec"><span class="t">5.2 Module Design</span><span class="dots"></span><span class="pg">16</span></li><li class="sec"><span class="t">5.3 Live Measurement Flow</span><span class="dots"></span><span class="pg">17</span></li><li class="sec"><span class="t">5.4 Interfaces</span><span class="dots"></span><span class="pg">17</span></li><li class="sec"><span class="t">5.5 Data Design</span><span class="dots"></span><span class="pg">18</span></li><li class="sec"><span class="t">5.6 User Interface Design</span><span class="dots"></span><span class="pg">18</span></li><li class="ch"><span class="t">6. Implementation</span><span class="dots"></span><span class="pg">19</span></li><li class="sec"><span class="t">6.1 Development Environment</span><span class="dots"></span><span class="pg">19</span></li><li class="sec"><span class="t">6.2 Face Module</span><span class="dots"></span><span class="pg">19</span></li><li class="sec"><span class="t">6.3 Signal Processing</span><span class="dots"></span><span class="pg">19</span></li><li class="sec"><span class="t">6.4 TS-CAN Wrapper</span><span class="dots"></span><span class="pg">20</span></li><li class="sec"><span class="t">6.5 Heart-Rate Tracker</span><span class="dots"></span><span class="pg">20</span></li><li class="sec"><span class="t">6.6 Web Server</span><span class="dots"></span><span class="pg">20</span></li><li class="sec"><span class="t">6.7 Front End</span><span class="dots"></span><span class="pg">20</span></li><li class="sec"><span class="t">6.8 Evaluation Scripts</span><span class="dots"></span><span class="pg">21</span></li><li class="sec"><span class="t">6.9 Toolbox Patch and Fine-Tuning</span><span class="dots"></span><span class="pg">21</span></li><li class="sec"><span class="t">6.10 Problems Met and How They Were Solved</span><span class="dots"></span><span class="pg">22</span></li><li class="ch"><span class="t">7. Experiments and Results</span><span class="dots"></span><span class="pg">23</span></li><li class="sec"><span class="t">7.1 Experimental Setup</span><span class="dots"></span><span class="pg">23</span></li><li class="sec"><span class="t">7.2 E1 and E2: Methods on UBFC-rPPG</span><span class="dots"></span><span class="pg">23</span></li><li class="sec"><span class="t">7.3 Agreement with the Reference (Bland–Altman)</span><span class="dots"></span><span class="pg">24</span></li><li class="sec"><span class="t">7.4 Answer to RQ1: Deep versus Classical</span><span class="dots"></span><span class="pg">24</span></li><li class="sec"><span class="t">7.5 Answer to RQ2: Cross-Dataset Transfer</span><span class="dots"></span><span class="pg">25</span></li><li class="sec"><span class="t">7.6 Fine-Tuning on UBFC</span><span class="dots"></span><span class="pg">25</span></li><li class="sec"><span class="t">7.7 Experiments Not Run: E3, E4 and E5</span><span class="dots"></span><span class="pg">26</span></li><li class="sec"><span class="t">7.8 Summary Against the Team Targets</span><span class="dots"></span><span class="pg">26</span></li><li class="ch"><span class="t">8. Testing and Validation</span><span class="dots"></span><span class="pg">26</span></li><li class="sec"><span class="t">8.1 Unit Tests</span><span class="dots"></span><span class="pg">26</span></li><li class="sec"><span class="t">8.2 Integration and System Tests</span><span class="dots"></span><span class="pg">27</span></li><li class="sec"><span class="t">8.3 Performance Measurements</span><span class="dots"></span><span class="pg">27</span></li><li class="sec"><span class="t">8.4 What Has Not Been Tested</span><span class="dots"></span><span class="pg">28</span></li><li class="ch"><span class="t">9. Ethics, Data Collection and Limitations</span><span class="dots"></span><span class="pg">28</span></li><li class="sec"><span class="t">9.1 Ethics and Privacy</span><span class="dots"></span><span class="pg">28</span></li><li class="sec"><span class="t">9.2 Planned Data Collection</span><span class="dots"></span><span class="pg">28</span></li><li class="sec"><span class="t">9.3 Limitations</span><span class="dots"></span><span class="pg">29</span></li><li class="ch"><span class="t">10. Conclusion and Future Scope</span><span class="dots"></span><span class="pg">29</span></li><li class="sec"><span class="t">10.1 Conclusion</span><span class="dots"></span><span class="pg">29</span></li><li class="sec"><span class="t">10.2 Contributions</span><span class="dots"></span><span class="pg">30</span></li><li class="sec"><span class="t">10.3 Lessons Learned</span><span class="dots"></span><span class="pg">30</span></li><li class="sec"><span class="t">10.4 Future Scope</span><span class="dots"></span><span class="pg">30</span></li><li class="ch"><span class="t">References</span><span class="dots"></span><span class="pg">31</span></li><li class="ch"><span class="t">Appendix A. User Manual</span><span class="dots"></span><span class="pg">32</span></li><li class="sec"><span class="t">A.1 Starting the application</span><span class="dots"></span><span class="pg">32</span></li><li class="sec"><span class="t">A.2 Measuring your heart rate</span><span class="dots"></span><span class="pg">32</span></li><li class="sec"><span class="t">A.3 Analysing a recorded video</span><span class="dots"></span><span class="pg">32</span></li><li class="sec"><span class="t">A.4 Results and Status tabs</span><span class="dots"></span><span class="pg">32</span></li><li class="ch"><span class="t">Appendix B. Commands to Reproduce the Results</span><span class="dots"></span><span class="pg">32</span></li><li class="ch"><span class="t">Appendix C. Repository Layout</span><span class="dots"></span><span class="pg">33</span></li><li class="ch"><span class="t">Appendix D. Project Timeline</span><span class="dots"></span><span class="pg">33</span></li><li class="ch"><span class="t">Appendix E. Glossary</span><span class="dots"></span><span class="pg">34</span></li></ul>
 
 <h2>List of Figures</h2>
-<ul class="toc small"><li class=""><span class="t">Figure 1. PulseCam processing pipeline.</span><span class="dots"></span><span class="pg">16</span></li><li class=""><span class="t">Figure 2. Architecture of the local web application.</span><span class="dots"></span><span class="pg">19</span></li><li class=""><span class="t">Figure 3. The web application: the Go live tab before a measurement (top) and the Results tab with the E1/E2 summary and a Bland–Altman plot (bottom).</span><span class="dots"></span><span class="pg">22</span></li><li class=""><span class="t">Figure 4. The Upload video tab (left) and the Status tab with the project checklist (right).</span><span class="dots"></span><span class="pg">25</span></li><li class=""><span class="t">Figure 5. Window MAE (BPM) of every method on UBFC-rPPG (lower is better).</span><span class="dots"></span><span class="pg">27</span></li><li class=""><span class="t">Figure 6. Bland–Altman plots on UBFC-rPPG (490 windows each): GREEN and ICA (top), CHROM and POS (middle), TS-CAN trained on PURE and on SCAMPS (bottom).</span><span class="dots"></span><span class="pg">29</span></li></ul>
+<ul class="toc small"><li class=""><span class="t">Figure 1. PulseCam processing pipeline.</span><span class="dots"></span><span class="pg">14</span></li><li class=""><span class="t">Figure 2. Architecture of the local web application.</span><span class="dots"></span><span class="pg">16</span></li><li class=""><span class="t">Figure 3. The web application: the Go live tab before a measurement (left) and the Results tab with the E1/E2 summary and a Bland–Altman plot (right).</span><span class="dots"></span><span class="pg">19</span></li><li class=""><span class="t">Figure 4. The Upload video tab (left) and the Status tab with the project checklist (right).</span><span class="dots"></span><span class="pg">21</span></li><li class=""><span class="t">Figure 5. Window MAE (BPM) of every method on UBFC-rPPG (lower is better).</span><span class="dots"></span><span class="pg">23</span></li><li class=""><span class="t">Figure 6. Bland–Altman plots on UBFC-rPPG (490 windows each): GREEN, ICA and CHROM (top), POS, TS-CAN trained on PURE and TS-CAN trained on SCAMPS (bottom).</span><span class="dots"></span><span class="pg">24</span></li></ul>
 
 <h2 class="same">List of Tables</h2>
-<ul class="toc small"><li class=""><span class="t">Table 1. Research questions and the experiments that answer them.</span><span class="dots"></span><span class="pg">10</span></li><li class=""><span class="t">Table 2. Classical rPPG methods used in this project.</span><span class="dots"></span><span class="pg">11</span></li><li class=""><span class="t">Table 3. Public rPPG datasets relevant to this project.</span><span class="dots"></span><span class="pg">12</span></li><li class=""><span class="t">Table 4. Functional requirements.</span><span class="dots"></span><span class="pg">13</span></li><li class=""><span class="t">Table 5. Non-functional requirements.</span><span class="dots"></span><span class="pg">14</span></li><li class=""><span class="t">Table 6. Hardware and software.</span><span class="dots"></span><span class="pg">14</span></li><li class=""><span class="t">Table 7. Skin regions of interest (fractions of the face box width w and height h).</span><span class="dots"></span><span class="pg">16</span></li><li class=""><span class="t">Table 8. Quality warnings of the live tracker.</span><span class="dots"></span><span class="pg">17</span></li><li class=""><span class="t">Table 9. Experiments E1–E5.</span><span class="dots"></span><span class="pg">17</span></li><li class=""><span class="t">Table 10. Modules and their responsibilities.</span><span class="dots"></span><span class="pg">20</span></li><li class=""><span class="t">Table 11. Server endpoints.</span><span class="dots"></span><span class="pg">20</span></li><li class=""><span class="t">Table 12. Main data files.</span><span class="dots"></span><span class="pg">21</span></li><li class=""><span class="t">Table 13. Engineering problems and their solutions.</span><span class="dots"></span><span class="pg">26</span></li><li class=""><span class="t">Table 14. E1/E2 on UBFC-rPPG, 42 subjects, 490 ten-second windows per method (MAE, RMSE, MAPE and Pearson per window).</span><span class="dots"></span><span class="pg">27</span></li><li class=""><span class="t">Table 15. SCAMPS scoring investigation (MAE in BPM, 42 subjects).</span><span class="dots"></span><span class="pg">29</span></li><li class=""><span class="t">Table 16. Fine-tuning on UBFC, scored on 6 unseen test people.</span><span class="dots"></span><span class="pg">30</span></li><li class=""><span class="t">Table 17. Results against the project targets.</span><span class="dots"></span><span class="pg">30</span></li><li class=""><span class="t">Table 18. Automated tests (pytest); all 6 pass.</span><span class="dots"></span><span class="pg">31</span></li><li class=""><span class="t">Table 19. Integration and system tests.</span><span class="dots"></span><span class="pg">32</span></li><li class=""><span class="t">Table 20. Performance measurements.</span><span class="dots"></span><span class="pg">32</span></li><li class=""><span class="t">Table 21. The four clips recorded per volunteer.</span><span class="dots"></span><span class="pg">33</span></li><li class=""><span class="t">Table 22. Answers to the research questions.</span><span class="dots"></span><span class="pg">35</span></li><li class=""><span class="t">Table 23. Project timeline and status.</span><span class="dots"></span><span class="pg">41</span></li><li class=""><span class="t">Table 24. Window MAE (BPM) per UBFC-rPPG subject and method; Ref. HR is the subject's mean reference heart rate (BPM).</span><span class="dots"></span><span class="pg">44</span></li></ul>
+<ul class="toc small"><li class=""><span class="t">Table 1. Research questions and the experiments that answer them.</span><span class="dots"></span><span class="pg">9</span></li><li class=""><span class="t">Table 2. Classical rPPG methods used in this project.</span><span class="dots"></span><span class="pg">10</span></li><li class=""><span class="t">Table 3. Public rPPG datasets relevant to this project.</span><span class="dots"></span><span class="pg">10</span></li><li class=""><span class="t">Table 4. Functional requirements.</span><span class="dots"></span><span class="pg">12</span></li><li class=""><span class="t">Table 5. Non-functional requirements.</span><span class="dots"></span><span class="pg">12</span></li><li class=""><span class="t">Table 6. Hardware and software.</span><span class="dots"></span><span class="pg">12</span></li><li class=""><span class="t">Table 7. Skin regions of interest (fractions of the face box width w and height h).</span><span class="dots"></span><span class="pg">14</span></li><li class=""><span class="t">Table 8. Quality warnings of the live tracker.</span><span class="dots"></span><span class="pg">15</span></li><li class=""><span class="t">Table 9. Experiments E1–E5.</span><span class="dots"></span><span class="pg">15</span></li><li class=""><span class="t">Table 10. Modules and their responsibilities.</span><span class="dots"></span><span class="pg">17</span></li><li class=""><span class="t">Table 11. Server endpoints.</span><span class="dots"></span><span class="pg">18</span></li><li class=""><span class="t">Table 12. Main data files.</span><span class="dots"></span><span class="pg">18</span></li><li class=""><span class="t">Table 13. Engineering problems and their solutions.</span><span class="dots"></span><span class="pg">22</span></li><li class=""><span class="t">Table 14. E1/E2 on UBFC-rPPG, 42 subjects, 490 ten-second windows per method (MAE, RMSE, MAPE and Pearson per window).</span><span class="dots"></span><span class="pg">23</span></li><li class=""><span class="t">Table 15. SCAMPS scoring investigation (MAE in BPM, 42 subjects).</span><span class="dots"></span><span class="pg">25</span></li><li class=""><span class="t">Table 16. Fine-tuning on UBFC, scored on 6 unseen test people.</span><span class="dots"></span><span class="pg">25</span></li><li class=""><span class="t">Table 17. Results against the project targets.</span><span class="dots"></span><span class="pg">26</span></li><li class=""><span class="t">Table 18. Automated tests (pytest); all 6 pass.</span><span class="dots"></span><span class="pg">27</span></li><li class=""><span class="t">Table 19. Integration and system tests.</span><span class="dots"></span><span class="pg">27</span></li><li class=""><span class="t">Table 20. Performance measurements.</span><span class="dots"></span><span class="pg">27</span></li><li class=""><span class="t">Table 21. The four clips recorded per volunteer.</span><span class="dots"></span><span class="pg">29</span></li><li class=""><span class="t">Table 22. Answers to the research questions.</span><span class="dots"></span><span class="pg">29</span></li><li class=""><span class="t">Table 23. Project timeline and status.</span><span class="dots"></span><span class="pg">34</span></li></ul>
 </div>
 
 <!-- ============ CHAPTER 1 ============ -->
@@ -183,10 +183,10 @@
 <p><b>Out of scope:</b> blood pressure, SpO<sub>2</sub>, arrhythmia detection or any other diagnosis; any clinical or medical use; multiple faces in one frame; exercise or heart rates outside 42–180 BPM; cloud processing.</p>
 
 <h3 class="sec">1.7 Organisation of the Report</h3>
-<p>Chapter 2 reviews the literature. Chapter 3 states the requirements and feasibility. Chapter 4 explains the signal theory and the methodology. Chapter 5 presents the system design and Chapter 6 the implementation, including the engineering problems met. Chapter 7 reports the experiments and results, Chapter 8 the testing, Chapter 9 ethics, data collection and limitations, and Chapter 10 the conclusion and future scope. The appendices give a user manual, the commands to reproduce the results, the repository layout, the project timeline, a glossary, the results for every UBFC-rPPG subject and the core signal-processing and model code.</p>
+<p>Chapter 2 reviews the literature. Chapter 3 states the requirements and feasibility. Chapter 4 explains the signal theory and the methodology. Chapter 5 presents the system design and Chapter 6 the implementation, including the engineering problems met. Chapter 7 reports the experiments and results, Chapter 8 the testing, Chapter 9 ethics, data collection and limitations, and Chapter 10 the conclusion and future scope. The appendices give a user manual, the commands to reproduce the results, the repository layout, the project timeline and a glossary.</p>
 
 <!-- ============ CHAPTER 2 ============ -->
-<h2 class="ch">2. Literature Review</h2>
+<h2 class="ch flow">2. Literature Review</h2>
 
 <h3 class="sec">2.1 Remote Photoplethysmography</h3>
 <p>Photoplethysmography (PPG) measures blood-volume changes with light; a finger clip shines light through the fingertip and records how much comes out. Verkruysse et al. (2008) showed that the same effect can be seen with ordinary ambient light and a consumer camera, which started the field of rPPG. The pulse signal is tiny compared with everything else that changes the face colour in a video: head movement, speech, changing room light, camera auto-exposure and video compression. All rPPG methods are ways to recover the pulse while suppressing these disturbances.</p>
@@ -223,7 +223,7 @@
 <p>Published results are mostly reported on lighter-skinned subjects in controlled conditions. There is little evidence for Indian users, for webcams in everyday conditions, or for running such a system on a student laptop without a GPU. PulseCam builds the complete pipeline, evaluates it honestly on the public benchmark, and prepares the protocol and tools needed to test the open questions with volunteers.</p>
 
 <!-- ============ CHAPTER 3 ============ -->
-<h2 class="ch">3. System Analysis and Requirements</h2>
+<h2 class="ch flow">3. System Analysis and Requirements</h2>
 
 <h3 class="sec">3.1 Users and Use Cases</h3>
 <ul>
@@ -281,7 +281,7 @@
 </ul>
 
 <!-- ============ CHAPTER 4 ============ -->
-<h2 class="ch">4. Theory and Methodology</h2>
+<h2 class="ch flow">4. Theory and Methodology</h2>
 
 <h3 class="sec">4.1 Signal Model</h3>
 <p>Let <i>c</i>(<i>t</i>) = (R, G, B) be the average colour of the skin pixels in frame <i>t</i>. A simple model is a constant skin colour plus a small pulse-dependent change, motion and noise:</p>
@@ -373,7 +373,7 @@
 <p><b>Team targets:</b> beat every classical baseline on E1; mean absolute error below 5 BPM on still, well-lit clips.</p>
 
 <!-- ============ CHAPTER 5 ============ -->
-<h2 class="ch">5. System Design</h2>
+<h2 class="ch flow">5. System Design</h2>
 
 <h3 class="sec">5.1 Architecture</h3>
 <p>PulseCam is a small Python application. The browser captures the webcam, the server does all the processing locally and nothing is sent to the internet.</p>
@@ -443,12 +443,11 @@
 
 <h3 class="sec">5.6 User Interface Design</h3>
 <p>The interface is a single page with four tabs: <i>Go live</i>, <i>Upload video</i>, <i>Results</i> and <i>Status</i>. It uses a white background with a light palette (red #e63946 for emphasis, honeydew #f1faee, powder blue #a8dadc, celadon #457b9d and Prussian blue #1d3557 for text), system fonts on Apple devices and a bundled Inter font on Windows, and small animations with the Motion library. The font and library are shipped inside the project with their licences (SIL OFL and MIT), so the page works offline. The Go live tab shows the camera view with the face box and ROIs, the reading in large type with the signal quality and the model switch, an optional reference-device field, the recovered pulse waveform on an ECG-style grid, and the heart-rate trend.</p>
-<div class="fig"><img class="shot" src="figures/ui_live.png" style="width:10cm"><br><br>
-<img class="shot" src="figures/ui_results.png" style="width:10cm"></div>
-<p class="cap">Figure 3. The web application: the Go live tab before a measurement (top) and the Results tab with the E1/E2 summary and a Bland–Altman plot (bottom).</p>
+<div class="figs"><img class="shot" src="figures/ui_live.png"><img class="shot" src="figures/ui_results.png"></div>
+<p class="cap">Figure 3. The web application: the Go live tab before a measurement (left) and the Results tab with the E1/E2 summary and a Bland–Altman plot (right).</p>
 
 <!-- ============ CHAPTER 6 ============ -->
-<h2 class="ch">6. Implementation</h2>
+<h2 class="ch flow">6. Implementation</h2>
 
 <h3 class="sec">6.1 Development Environment</h3>
 <p>The code is written in Python and kept in a private Git repository. A virtual environment holds the dependencies; the rPPG-Toolbox is cloned inside the project (and git-ignored), and <code>python toolbox_patch/install.py rPPG-Toolbox</code> applies our changes to it. Heavy computation (evaluation on all 42 videos and fine-tuning) ran on the free Google Colab GPU, with the data on Google Drive; the demo runs on a CPU-only Windows laptop. Because <code>pulsecam/signal.py</code> has the same name as a standard-library module, scripts are always run from the repository root and never from inside the <code>pulsecam</code> folder.</p>
@@ -519,7 +518,7 @@ return smooth_detrend(bvp)                          # remove slow drift</pre>
 </table>
 
 <!-- ============ CHAPTER 7 ============ -->
-<h2 class="ch">7. Experiments and Results</h2>
+<h2 class="ch flow">7. Experiments and Results</h2>
 
 <h3 class="sec">7.1 Experimental Setup</h3>
 <p>E1 and E2 use all 42 subjects of UBFC-rPPG. Every video is processed with the same face pipeline. Every 10-second window with a step of 5 seconds (490 windows per method) is scored against the heart rate of the ground-truth PPG in the same window; “per video” is the median over the windows of each video (42 videos). The deep models are the toolbox's <i>released</i> TS-CAN checkpoints trained on PURE and on SCAMPS; we did not train a model from scratch. The classical methods GREEN, ICA and CHROM come from the toolbox and POS is our own implementation, all using the same frames.</p>
@@ -540,13 +539,12 @@ return smooth_detrend(bvp)                          # remove slow drift</pre>
 
 <h3 class="sec">7.3 Agreement with the Reference (Bland–Altman)</h3>
 <p>A Bland–Altman plot (Figure 6) shows, for every 10-second window, the difference between the estimate and the reference against the mean of the two. For TS-CAN trained on PURE the bias is −0.8 BPM. Most points lie on the zero line, and the wide limits of agreement (±1.96 SD = 13.3 BPM) are caused by a handful of outlier windows where the method locked onto a wrong frequency; the same pattern, with more outliers, is visible for POS and ICA. For GREEN the errors are large and scattered over the whole range, and for TS-CAN trained on SCAMPS a cloud of windows lies far below zero.</p>
-<div class="figs"><img src="../results/plots/BA_ubfc_GREEN.png"><img src="../results/plots/BA_ubfc_ICA.png"></div>
-<div class="figs"><img src="../results/plots/BA_ubfc_CHROM.png"><img src="../results/plots/BA_ubfc_POS.png"></div>
-<div class="figs"><img src="../results/plots/BA_ubfc_TSCAN_PURE.png"><img src="../results/plots/BA_ubfc_TSCAN_SCAMPS.png"></div>
-<p class="cap">Figure 6. Bland–Altman plots on UBFC-rPPG (490 windows each): GREEN and ICA (top), CHROM and POS (middle), TS-CAN trained on PURE and on SCAMPS (bottom). The dashed lines are the limits of agreement (bias ± 1.96 SD).</p>
+<div class="figs three"><img src="../results/plots/BA_ubfc_GREEN.png"><img src="../results/plots/BA_ubfc_ICA.png"><img src="../results/plots/BA_ubfc_CHROM.png"></div>
+<div class="figs three"><img src="../results/plots/BA_ubfc_POS.png"><img src="../results/plots/BA_ubfc_TSCAN_PURE.png"><img src="../results/plots/BA_ubfc_TSCAN_SCAMPS.png"></div>
+<p class="cap">Figure 6. Bland–Altman plots on UBFC-rPPG (490 windows each): GREEN, ICA and CHROM (top), POS, TS-CAN trained on PURE and TS-CAN trained on SCAMPS (bottom). The dashed lines are the limits of agreement (bias ± 1.96 SD).</p>
 
 <h3 class="sec">7.4 Answer to RQ1: Deep versus Classical</h3>
-<p>TS-CAN trained on PURE clearly beats GREEN, ICA and POS and narrowly edges out CHROM on window MAE (1.80 vs 2.00 BPM). The two are tied per video (0.72 BPM both) and CHROM has a slightly higher correlation (0.94 vs 0.93), so the margin over CHROM is small and we did not test whether it is statistically significant. An earlier run on only the first 10 subjects had shown a larger gap (0.70 vs 1.08 BPM); with all 42 subjects it shrank, which shows how much the result depends on which subjects are in the sample. The team target “beat every classical baseline” is met on the headline metric, and the target “MAE below 5 BPM on still, well-lit clips” is comfortably met by both TS-CAN and CHROM. For ICA, POS and TS-CAN the RMSE is much larger than the MAE, because a few windows with a wrong peak dominate the error. The per-subject breakdown in Appendix F shows that TS-CAN and CHROM fail on mostly different subjects: TS-CAN is lower than CHROM on 28 of the 42 subjects, and only one subject is hard for both.</p>
+<p>TS-CAN trained on PURE clearly beats GREEN, ICA and POS and narrowly edges out CHROM on window MAE (1.80 vs 2.00 BPM). The two are tied per video (0.72 BPM both) and CHROM has a slightly higher correlation (0.94 vs 0.93), so the margin over CHROM is small and we did not test whether it is statistically significant. An earlier run on only the first 10 subjects had shown a larger gap (0.70 vs 1.08 BPM); with all 42 subjects it shrank, which shows how much the result depends on which subjects are in the sample. The team target “beat every classical baseline” is met on the headline metric, and the target “MAE below 5 BPM on still, well-lit clips” is comfortably met by both TS-CAN and CHROM. For ICA, POS and TS-CAN the RMSE is much larger than the MAE, because a few windows with a wrong peak dominate the error. Broken down by subject, TS-CAN and CHROM fail on mostly different subjects: TS-CAN is lower than CHROM on 28 of the 42 subjects, and only one subject is hard for both.</p>
 
 <h3 class="sec">7.5 Answer to RQ2: Cross-Dataset Transfer</h3>
 <p>A TS-CAN model trained on real video (PURE) transfers well to UBFC (1.80 BPM), but the same model trained on synthetic SCAMPS does not (12.83 BPM). To test whether this is only a scoring problem, we scored the same cached face crops five ways, including the toolbox's own preprocessing and post-processing (<code>eval/scamps_check.py</code>, all 42 subjects):</p>
@@ -587,7 +585,7 @@ return smooth_detrend(bvp)                          # remove slow drift</pre>
 </table>
 
 <!-- ============ CHAPTER 8 ============ -->
-<h2 class="ch">8. Testing and Validation</h2>
+<h2 class="ch flow">8. Testing and Validation</h2>
 <p>Testing was done at three levels: automated unit tests of the signal-processing and metric code, integration and system tests of the whole pipeline and web application with recorded and simulated input, and measurements of speed on the development laptop. Section 8.4 states what has not been tested.</p>
 
 <h3 class="sec">8.1 Unit Tests</h3>
@@ -629,7 +627,7 @@ return smooth_detrend(bvp)                          # remove slow drift</pre>
 <p>The live demo has not been run with a real person at a real webcam; the live checks used recorded frames and a simulated camera. Accuracy under motion, talking, dim light and for different skin tones has not been measured. Other browsers, other cameras and phones were not tested.</p>
 
 <!-- ============ CHAPTER 9 ============ -->
-<h2 class="ch">9. Ethics, Data Collection and Limitations</h2>
+<h2 class="ch flow">9. Ethics, Data Collection and Limitations</h2>
 
 <h3 class="sec">9.1 Ethics and Privacy</h3>
 <ul>
@@ -671,10 +669,10 @@ return smooth_detrend(bvp)                          # remove slow drift</pre>
 </ul>
 
 <!-- ============ CHAPTER 10 ============ -->
-<h2 class="ch">10. Conclusion and Future Scope</h2>
+<h2 class="ch flow">10. Conclusion and Future Scope</h2>
 
 <h3 class="sec">10.1 Conclusion</h3>
-<p>PulseCam shows that a complete contactless heart-rate pipeline can be built with free tools and a standard webcam. It detects the face, extracts the pulse with POS or TS-CAN, filters it and reads the heart rate from the spectrum, and it runs live in a browser on a student laptop. On the UBFC-rPPG benchmark TS-CAN reaches 1.80 BPM window MAE and meets the target of under 5 BPM.</p>
+<p>PulseCam shows that a complete contactless heart-rate pipeline can be built with free tools and a standard webcam. It runs live in a browser on a student laptop. On the UBFC-rPPG benchmark TS-CAN reaches 1.80 BPM window MAE and meets the target of under 5 BPM.</p>
 <table>
   <tr><th style="width:8%">RQ</th><th>Answer</th></tr>
   <tr><td>RQ1</td><td>TS-CAN (PURE weights) beats GREEN, ICA and POS and narrowly edges out the best classical method, CHROM, on window MAE (1.80 vs 2.00 BPM); the two are tied per video. On easy, controlled video a well-tuned classical method is almost as good as the deep model.</td></tr>
@@ -752,7 +750,7 @@ return smooth_detrend(bvp)                          # remove slow drift</pre>
 <h3 class="sec">A.4 Results and Status tabs</h3>
 <p>The <i>Results</i> tab shows the UBFC-rPPG comparison of all methods with a Bland–Altman plot for each. The <i>Status</i> tab shows the project checklist. PulseCam is a research prototype and not a medical device.</p>
 
-<h2 class="ch">Appendix B. Commands to Reproduce the Results</h2>
+<h2 class="ch flow">Appendix B. Commands to Reproduce the Results</h2>
 <p>All commands are run from the project folder with the project's Python environment.</p>
 <dl>
   <dt>Run the live demo</dt>
@@ -774,7 +772,7 @@ python eval/report.py</pre></dd>
   <dd><pre>python -m pytest tests -q</pre></dd>
 </dl>
 
-<h2 class="ch">Appendix C. Repository Layout</h2>
+<h2 class="ch flow">Appendix C. Repository Layout</h2>
 <pre>PulseCam/
   pulsecam/        signal.py  face.py  tscan.py  pipeline.py  metrics.py  draw.py
   app/             server.py  cv_app.py  web/ (index.html, static/)
@@ -791,7 +789,7 @@ python eval/report.py</pre></dd>
   data/            private, git-ignored (videos, consents, metadata)
   rPPG-Toolbox/    cloned, git-ignored</pre>
 
-<h2 class="ch">Appendix D. Project Timeline</h2>
+<h2 class="ch flow">Appendix D. Project Timeline</h2>
 <p>The project ran from the start of October 2026 and the software and public-data parts were completed by 26 October 2026. The volunteer-dependent phases were not started because they need people and a reference device.</p>
 <table>
   <tr><th style="width:5%">#</th><th style="width:24%">Phase</th><th>Activity</th><th style="width:18%">Status</th></tr>
@@ -805,7 +803,7 @@ python eval/report.py</pre></dd>
   <caption>Table 23. Project timeline and status.</caption>
 </table>
 
-<h2 class="ch">Appendix E. Glossary</h2>
+<h2 class="ch flow">Appendix E. Glossary</h2>
 <dl>
   <dt>rPPG (remote photoplethysmography)</dt><dd>Measuring the pulse from small colour changes of the skin in a video, without contact.</dd>
   <dt>BPM</dt><dd>Beats per minute; HR = 60 × frequency in Hz.</dd>
@@ -822,163 +820,6 @@ python eval/report.py</pre></dd>
   <dt>UBFC-rPPG, PURE, SCAMPS</dt><dd>Public rPPG datasets: real indoor videos, real videos with motion tasks, and synthetic avatar videos.</dd>
   <dt>Checkpoint</dt><dd>A saved set of trained model weights.</dd>
 </dl>
-
-<h2 class="ch">Appendix F. Per-Subject Results on UBFC-rPPG</h2>
-<p>Table 24 breaks the E1/E2 results of Section 7.2 down by subject. Each value is the mean absolute error (BPM) over that subject's 10-second windows (step 5 s), scored against the heart rate of the ground-truth finger PPG in the same window; the lowest error in each row is in bold. The last row repeats the window MAE over all 490 windows from Table 14. The numbers are computed from <code>results/tables/E1_E2_ubfc_windows.csv</code>.</p>
-<table class="tight">
-  <tr><th>Subject</th><th style="text-align:right">Windows</th><th style="text-align:right">Ref. HR</th><th style="text-align:right">GREEN</th><th style="text-align:right">ICA</th><th style="text-align:right">POS</th><th style="text-align:right">CHROM</th><th style="text-align:right">TS-CAN (PURE)</th><th style="text-align:right">TS-CAN (SCAMPS)</th></tr>
-  <tr><td>1</td><td class="n">9</td><td class="n">105.9</td><td class="n">18.53</td><td class="n">0.71</td><td class="n">0.81</td><td class="n">1.10</td><td class="n"><b>0.62</b></td><td class="n">17.96</td></tr>
-  <tr><td>3</td><td class="n">11</td><td class="n">93.0</td><td class="n">5.43</td><td class="n">3.97</td><td class="n">8.54</td><td class="n"><b>0.47</b></td><td class="n"><b>0.47</b></td><td class="n">13.34</td></tr>
-  <tr><td>4</td><td class="n">8</td><td class="n">104.3</td><td class="n">15.13</td><td class="n">2.66</td><td class="n">5.64</td><td class="n">0.76</td><td class="n"><b>0.38</b></td><td class="n">5.15</td></tr>
-  <tr><td>5</td><td class="n">9</td><td class="n">98.4</td><td class="n">8.74</td><td class="n">0.63</td><td class="n"><b>0.53</b></td><td class="n">0.58</td><td class="n"><b>0.53</b></td><td class="n">20.28</td></tr>
-  <tr><td>8</td><td class="n">12</td><td class="n">111.6</td><td class="n">33.20</td><td class="n">0.69</td><td class="n"><b>0.47</b></td><td class="n">0.51</td><td class="n">0.51</td><td class="n">15.58</td></tr>
-  <tr><td>9</td><td class="n">12</td><td class="n">107.5</td><td class="n">12.12</td><td class="n">13.99</td><td class="n">3.89</td><td class="n">4.04</td><td class="n"><b>0.40</b></td><td class="n">30.54</td></tr>
-  <tr><td>10</td><td class="n">12</td><td class="n">110.9</td><td class="n">40.99</td><td class="n">1.13</td><td class="n">0.69</td><td class="n">0.62</td><td class="n"><b>0.44</b></td><td class="n">30.60</td></tr>
-  <tr><td>11</td><td class="n">12</td><td class="n">123.5</td><td class="n">58.92</td><td class="n">12.94</td><td class="n">6.96</td><td class="n"><b>0.65</b></td><td class="n">0.87</td><td class="n">45.28</td></tr>
-  <tr><td>12</td><td class="n">12</td><td class="n">66.1</td><td class="n">13.11</td><td class="n">1.95</td><td class="n"><b>0.50</b></td><td class="n">0.99</td><td class="n">2.02</td><td class="n">2.09</td></tr>
-  <tr><td>13</td><td class="n">12</td><td class="n">106.5</td><td class="n">24.66</td><td class="n">0.65</td><td class="n">0.65</td><td class="n">0.84</td><td class="n"><b>0.51</b></td><td class="n">20.44</td></tr>
-  <tr><td>14</td><td class="n">12</td><td class="n">73.0</td><td class="n">14.92</td><td class="n">8.71</td><td class="n">7.21</td><td class="n"><b>3.91</b></td><td class="n">5.95</td><td class="n">16.64</td></tr>
-  <tr><td>15</td><td class="n">12</td><td class="n">114.1</td><td class="n">38.00</td><td class="n"><b>0.29</b></td><td class="n">0.47</td><td class="n">0.51</td><td class="n">8.71</td><td class="n">15.64</td></tr>
-  <tr><td>16</td><td class="n">12</td><td class="n">93.4</td><td class="n">16.73</td><td class="n">9.94</td><td class="n">7.02</td><td class="n"><b>0.77</b></td><td class="n">4.17</td><td class="n">13.81</td></tr>
-  <tr><td>17</td><td class="n">12</td><td class="n">86.4</td><td class="n">3.29</td><td class="n"><b>0.69</b></td><td class="n">1.94</td><td class="n"><b>0.69</b></td><td class="n">3.22</td><td class="n">4.93</td></tr>
-  <tr><td>18</td><td class="n">12</td><td class="n">120.1</td><td class="n">24.26</td><td class="n">14.02</td><td class="n">0.84</td><td class="n">0.62</td><td class="n"><b>0.51</b></td><td class="n">9.70</td></tr>
-  <tr><td>20</td><td class="n">12</td><td class="n">126.1</td><td class="n">59.32</td><td class="n">25.54</td><td class="n">23.74</td><td class="n">4.47</td><td class="n"><b>1.19</b></td><td class="n">16.78</td></tr>
-  <tr><td>22</td><td class="n">12</td><td class="n">101.3</td><td class="n">14.09</td><td class="n">10.42</td><td class="n">22.63</td><td class="n"><b>3.01</b></td><td class="n">4.94</td><td class="n">26.33</td></tr>
-  <tr><td>23</td><td class="n">12</td><td class="n">62.7</td><td class="n">4.20</td><td class="n">1.20</td><td class="n">1.38</td><td class="n">4.03</td><td class="n"><b>0.64</b></td><td class="n">5.26</td></tr>
-  <tr><td>24</td><td class="n">12</td><td class="n">107.7</td><td class="n">29.86</td><td class="n">9.57</td><td class="n"><b>0.61</b></td><td class="n">0.68</td><td class="n">0.86</td><td class="n">9.46</td></tr>
-  <tr><td>25</td><td class="n">11</td><td class="n">89.0</td><td class="n">10.69</td><td class="n">4.02</td><td class="n">0.62</td><td class="n">0.31</td><td class="n"><b>0.19</b></td><td class="n">7.97</td></tr>
-  <tr><td>26</td><td class="n">11</td><td class="n">77.0</td><td class="n">18.03</td><td class="n">7.15</td><td class="n">1.12</td><td class="n"><b>0.75</b></td><td class="n">13.43</td><td class="n">19.89</td></tr>
-  <tr><td>27</td><td class="n">11</td><td class="n">85.5</td><td class="n">7.22</td><td class="n">12.32</td><td class="n">5.29</td><td class="n"><b>3.73</b></td><td class="n">5.66</td><td class="n">11.76</td></tr>
-  <tr><td>30</td><td class="n">12</td><td class="n">97.5</td><td class="n">30.97</td><td class="n">19.30</td><td class="n">17.81</td><td class="n">8.33</td><td class="n"><b>0.69</b></td><td class="n">8.40</td></tr>
-  <tr><td>31</td><td class="n">12</td><td class="n">77.4</td><td class="n">9.87</td><td class="n"><b>0.33</b></td><td class="n">0.47</td><td class="n"><b>0.33</b></td><td class="n">0.36</td><td class="n">0.58</td></tr>
-  <tr><td>32</td><td class="n">12</td><td class="n">106.5</td><td class="n">24.08</td><td class="n">14.72</td><td class="n">3.79</td><td class="n">4.26</td><td class="n"><b>0.69</b></td><td class="n">28.17</td></tr>
-  <tr><td>33</td><td class="n">12</td><td class="n">114.1</td><td class="n">34.88</td><td class="n">1.57</td><td class="n">1.60</td><td class="n">1.68</td><td class="n">1.64</td><td class="n"><b>0.61</b></td></tr>
-  <tr><td>34</td><td class="n">12</td><td class="n">116.2</td><td class="n">51.05</td><td class="n">3.40</td><td class="n">0.44</td><td class="n"><b>0.37</b></td><td class="n">0.40</td><td class="n">31.47</td></tr>
-  <tr><td>35</td><td class="n">12</td><td class="n">104.2</td><td class="n">1.46</td><td class="n">0.58</td><td class="n">0.73</td><td class="n">0.51</td><td class="n"><b>0.40</b></td><td class="n">1.06</td></tr>
-  <tr><td>36</td><td class="n">12</td><td class="n">119.0</td><td class="n">7.45</td><td class="n">1.39</td><td class="n">0.44</td><td class="n">0.51</td><td class="n"><b>0.22</b></td><td class="n">0.62</td></tr>
-  <tr><td>37</td><td class="n">12</td><td class="n">59.0</td><td class="n">3.16</td><td class="n">1.42</td><td class="n"><b>0.65</b></td><td class="n">0.80</td><td class="n"><b>0.65</b></td><td class="n">1.05</td></tr>
-  <tr><td>38</td><td class="n">12</td><td class="n">109.3</td><td class="n">28.71</td><td class="n">0.66</td><td class="n">0.77</td><td class="n">0.58</td><td class="n"><b>0.37</b></td><td class="n">7.89</td></tr>
-  <tr><td>39</td><td class="n">12</td><td class="n">83.7</td><td class="n">8.23</td><td class="n">2.50</td><td class="n">1.67</td><td class="n"><b>0.58</b></td><td class="n"><b>0.58</b></td><td class="n">3.66</td></tr>
-  <tr><td>40</td><td class="n">12</td><td class="n">86.4</td><td class="n">2.73</td><td class="n">0.51</td><td class="n">0.62</td><td class="n"><b>0.25</b></td><td class="n">0.36</td><td class="n">1.16</td></tr>
-  <tr><td>41</td><td class="n">12</td><td class="n">101.1</td><td class="n">31.02</td><td class="n">40.43</td><td class="n">28.91</td><td class="n">6.32</td><td class="n"><b>0.62</b></td><td class="n">15.62</td></tr>
-  <tr><td>42</td><td class="n">12</td><td class="n">95.6</td><td class="n">13.49</td><td class="n">0.48</td><td class="n"><b>0.37</b></td><td class="n"><b>0.37</b></td><td class="n"><b>0.37</b></td><td class="n">16.45</td></tr>
-  <tr><td>43</td><td class="n">12</td><td class="n">96.3</td><td class="n">17.26</td><td class="n">0.47</td><td class="n">0.39</td><td class="n"><b>0.36</b></td><td class="n">1.86</td><td class="n">14.08</td></tr>
-  <tr><td>44</td><td class="n">12</td><td class="n">81.5</td><td class="n">12.10</td><td class="n">5.67</td><td class="n">7.08</td><td class="n">6.25</td><td class="n"><b>5.24</b></td><td class="n">6.61</td></tr>
-  <tr><td>45</td><td class="n">12</td><td class="n">110.3</td><td class="n"><b>0.48</b></td><td class="n">5.19</td><td class="n">7.57</td><td class="n">0.62</td><td class="n">0.51</td><td class="n">6.00</td></tr>
-  <tr><td>46</td><td class="n">12</td><td class="n">94.1</td><td class="n">5.85</td><td class="n">3.11</td><td class="n">2.07</td><td class="n">2.14</td><td class="n"><b>1.61</b></td><td class="n">10.96</td></tr>
-  <tr><td>47</td><td class="n">12</td><td class="n">109.7</td><td class="n">2.29</td><td class="n">2.11</td><td class="n">1.89</td><td class="n">2.00</td><td class="n"><b>0.29</b></td><td class="n">1.16</td></tr>
-  <tr><td>48</td><td class="n">12</td><td class="n">87.4</td><td class="n">28.69</td><td class="n">18.23</td><td class="n">6.67</td><td class="n">8.95</td><td class="n"><b>1.62</b></td><td class="n">9.41</td></tr>
-  <tr><td>49</td><td class="n">12</td><td class="n">87.4</td><td class="n">21.37</td><td class="n">13.05</td><td class="n">1.71</td><td class="n">3.45</td><td class="n"><b>0.91</b></td><td class="n">15.23</td></tr>
-  <tr><th>All</th><th class="n">490</th><th class="n">97.6</th><th class="n">19.38</th><th class="n">6.73</th><th class="n">4.50</th><th class="n">2.00</th><th class="n">1.80</th><th class="n">12.83</th></tr>
-  <caption>Table 24. Window MAE (BPM) per UBFC-rPPG subject and method; Ref. HR is the subject's mean reference heart rate (BPM).</caption>
-</table>
-<p><b>What the table shows.</b> TS-CAN (PURE) has an error below 1 BPM on 28 of the 42 subjects and CHROM on 26; TS-CAN is lower than CHROM on 28 subjects and higher on 14. The two methods fail on different people: TS-CAN is above 5 BPM on subjects 14, 15, 26, 27, 44, CHROM on subjects 30, 41, 44, 48, and only subject 44 is hard for both. Where the colour-based methods break down (subjects 20, 30, 41, 48), TS-CAN stays within 1.7 BPM; where TS-CAN breaks down (subjects 15, 26), CHROM stays below 1 BPM. Combining the two, or falling back to CHROM when the TS-CAN signal is weak, is therefore a promising direction, but it was not tested and no gain is claimed. The reference heart rates range from 59 to 126 BPM, and no method shows an obvious problem at the low or high end of that range.</p>
-
-<h2 class="ch">Appendix G. Selected Source Code</h2>
-<p>The two modules that turn a face video into a pulse signal and a heart rate, printed exactly as they are in the project repository: the classical signal processing and the deep model. The live tracker (<code>pipeline.py</code>), face detection (<code>face.py</code>), web server and evaluation scripts build on them; the full code is in the project repository.</p>
-<h3 class="sec">G.1 <code>pulsecam/signal.py</code></h3>
-<p>Band-pass filter, smoothness-priors detrend, FFT heart rate with SNR, and the POS algorithm (Section 4.2, 4.4 and 4.5).</p>
-<pre>&quot;&quot;&quot;Bandpass + FFT heart rate, SNR, and the classical POS method (Wang et al., 2016).&quot;&quot;&quot;
-import numpy as np
-from scipy.signal import butter, filtfilt, detrend
-from scipy.sparse import diags, identity
-from scipy.sparse.linalg import spsolve
-
-LO, HI = 0.7, 3.0  # Hz, i.e. 42-180 BPM
-
-
-def bandpass(x, fs, lo=LO, hi=HI, order=3):
-    b, a = butter(order, [lo, hi], btype=&quot;band&quot;, fs=fs)
-    return filtfilt(b, a, detrend(np.asarray(x, float)))
-
-
-def smooth_detrend(x, lam=100):
-    &quot;&quot;&quot;Remove slow drift with the smoothness-priors detrend the rPPG-Toolbox uses (Tarvainen et al., 2002).
-
-    TS-CAN outputs the derivative of the pulse; we integrate it with cumsum, which turns noise into strong slow drift
-    that otherwise leaks into the low end of the heart-rate band. Same result as the toolbox&#x27;s `_detrend`, but sparse.&quot;&quot;&quot;
-    x = np.asarray(x, float)
-    n = len(x)
-    D = diags([1.0, -2.0, 1.0], [0, 1, 2], shape=(n - 2, n))
-    return x - spsolve((identity(n) + lam ** 2 * (D.T @ D)).tocsc(), x)
-
-
-def fft_bpm(x, fs):
-    &quot;&quot;&quot;Return (bpm, snr_db). HR = 60 * peak frequency inside 0.7-3.0 Hz.&quot;&quot;&quot;
-    x = bandpass(x, fs)
-    n = 1 &lt;&lt; int(np.ceil(np.log2(len(x) * 8)))  # zero-pad for ~0.01 Hz resolution
-    p = np.abs(np.fft.rfft(x * np.hanning(len(x)), n)) ** 2
-    f = np.fft.rfftfreq(n, 1 / fs)
-    band = (f &gt;= LO) &amp; (f &lt;= HI)
-    fp = f[band][p[band].argmax()]
-    near = (np.abs(f - fp) &lt; 0.1) | (np.abs(f - 2 * fp) &lt; 0.1)  # peak + 2nd harmonic
-    snr = 10 * np.log10(p[band &amp; near].sum() / max(p[band &amp; ~near].sum(), 1e-12))
-    return 60 * fp, snr
-
-
-def pos_bvp(rgb, fs, win_s=1.6):
-    &quot;&quot;&quot;POS pulse signal from per-frame mean RGB, shape (T, 3) -&gt; (T,).&quot;&quot;&quot;
-    rgb = np.asarray(rgb, float)
-    T, L = len(rgb), int(win_s * fs)
-    h = np.zeros(T)
-    P = np.array([[0, 1, -1], [-2, 1, 1]])
-    for n in range(L, T + 1):
-        w = rgb[n - L:n]
-        c = w.T / np.maximum(w.mean(0), 1e-6)[:, None]
-        s = P @ c
-        v = s[0] + s[0].std() / max(s[1].std(), 1e-6) * s[1]
-        h[n - L:n] += v - v.mean()
-    return h</pre>
-<h3 class="sec">G.2 <code>pulsecam/tscan.py</code></h3>
-<p>TS-CAN inference: loads the rPPG-Toolbox model class and the released weights, prepares the motion and appearance inputs and integrates the predicted derivative (Section 4.3 and 6.4).</p>
-<pre>&quot;&quot;&quot;TS-CAN inference using rPPG-Toolbox&#x27;s model class and pre-trained / own weights.&quot;&quot;&quot;
-import importlib.util
-import os
-
-import numpy as np
-
-from pulsecam.signal import smooth_detrend
-
-ROOT = os.path.join(os.path.dirname(__file__), &quot;..&quot;)
-TOOLBOX = os.path.join(ROOT, &quot;rPPG-Toolbox&quot;)
-
-
-def default_weights():
-    own = os.path.join(ROOT, &quot;models&quot;, &quot;best_tscan.pth&quot;)  # your trained / fine-tuned model wins
-    return own if os.path.exists(own) else os.path.join(TOOLBOX, &quot;final_model_release&quot;, &quot;PURE_TSCAN.pth&quot;)
-
-
-class TSCANPredictor:
-    &quot;&quot;&quot;predict(face): face (N, 72, 72, 3) uint8 RGB, N a multiple of 10 -&gt; BVP (N,).&quot;&quot;&quot;
-
-    def __init__(self, weights=None, depth=10, size=72):
-        import torch
-        spec = importlib.util.spec_from_file_location(
-            &quot;ts_can&quot;, os.path.join(TOOLBOX, &quot;neural_methods&quot;, &quot;model&quot;, &quot;TS_CAN.py&quot;))
-        mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
-        self.torch, self.depth = torch, depth
-        self.net = mod.TSCAN(frame_depth=depth, img_size=size)
-        sd = torch.load(weights or default_weights(), map_location=&quot;cpu&quot;)
-        self.net.load_state_dict({k.removeprefix(&quot;module.&quot;): v for k, v in sd.items()})
-        self.net.eval()
-
-    @staticmethod
-    def _diff_norm(x):
-        d = (x[1:] - x[:-1]) / (x[1:] + x[:-1] + 1e-7)
-        d = np.concatenate([d / d.std(), np.zeros_like(x[:1])])  # same layout as the toolbox
-        return np.nan_to_num(d)
-
-    def predict(self, face, detrend=True):
-        x = face.astype(np.float32)
-        x = x[: len(x) // self.depth * self.depth]
-        std = np.nan_to_num((x - x.mean()) / (x.std() + 1e-7))
-        inp = np.concatenate([self._diff_norm(x), std], -1).transpose(0, 3, 1, 2)
-        dev = next(self.net.parameters()).device
-        with self.torch.no_grad():
-            out = self.net(self.torch.from_numpy(np.ascontiguousarray(inp)).to(dev))
-        bvp = np.cumsum(out.cpu().numpy().ravel())  # model predicts the first difference of the BVP
-        return smooth_detrend(bvp) if detrend else bvp  # toolbox-style drift removal; verified on all 42 UBFC subjects (eval/scamps_check.py, 26 Oct) to lower MAE for both PURE and SCAMPS weights vs. the un-detrended baseline</pre>
 
 </body>
 </html>
