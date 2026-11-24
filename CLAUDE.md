@@ -46,6 +46,7 @@ Demo: 10 s rolling buffer (300 frames), estimate every 1 s, show median of last 
 - Own recordings → results: `python eval/predict_own.py --method pos` / `--method tscan --stage pretrained|finetuned --only P17,P18,P19,P20`, then `python eval/report.py`
 - E1/E2 (UBFC): `python eval/ubfc_eval.py --root data/ubfc [--max 10]` → `results/tables/E1_E2_ubfc*.csv`, `results/plots/`; `--from-csv results/tables/E1_E2_ubfc_windows.csv` rebuilds tables/plots without videos. Backup demo video: `python app/cv_app.py --source <video> --save results/backup_demo.mp4`
 - Toolbox (Linux/Colab/WSL only; Windows here has no WSL2): `cd rPPG-Toolbox && python main.py --config_file <yaml>`; keep logs with `2>&1 | tee results/logs/E1_<name>.log`, then `python eval/parse_logs.py`
+- Report / synopsis: edit `docs/PulseCam_Project_Report.html` / `docs/PulseCam_Synopsis.html`, then `python docs/build_pdf.py` (Edge headless print + fills the contents page numbers). College rule: synopsis 10-15 pages (now 14), report 35-50 (now 42); presentation/viva 25 Nov 2026.
 - The toolbox YAML dataset keyword for own data is `PulseCam`; fine-tune needs `PULSECAM_INIT=<weights.pth>`.
 
 ## Experiments (answer RQ1–RQ4)

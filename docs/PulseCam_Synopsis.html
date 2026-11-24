@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PulseCam – Project Synopsis</title>
+<style>
+  @page { size: A4; margin: 2.3cm 2.2cm 2.4cm 2.2cm;
+          @bottom-center { content: counter(page); font: 10pt "Times New Roman", serif; color: #444; } }
+  @page :first { @bottom-center { content: none; } }
+  html { font: 11.5pt/1.5 "Times New Roman", Times, serif; color: #111; }
+  body { margin: 0; text-align: justify; }
+  h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; text-align: left; color: #1d3557; }
+  h2 { font-size: 13.5pt; margin: 1.5em 0 .4em; border-bottom: 1px solid #1d3557; padding-bottom: 2px; break-after: avoid; }
+  h2.pb { break-before: page; margin-top: 0; }
+  h3 { font-size: 11.5pt; margin: 1em 0 .3em; break-after: avoid; }
+  p { margin: .4em 0; }
+  ul, ol { margin: .3em 0 .3em 1.3em; padding: 0; }
+  li { margin: .15em 0; }
+  table { border-collapse: collapse; width: 100%; margin: .6em 0; font-size: 10.5pt; }
+  tr { break-inside: avoid; }
+  tr:has(th) { break-after: avoid; }
+  tr:has(th) + tr { break-before: avoid; }
+  th, td { border: 1px solid #555; padding: 4px 7px; text-align: left; vertical-align: top; }
+  th { background: #e8eef5; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  caption { caption-side: bottom; font-size: 9.5pt; color: #333; padding-top: 4px; text-align: left; }
+  code, pre { font-family: Consolas, "Courier New", monospace; font-size: 9.5pt; }
+  pre { background: #f4f6f8; border: 1px solid #ccd3da; padding: 6px 9px; margin: .5em 0; white-space: pre-wrap; text-align: left; break-inside: avoid; }
+  .eq { text-align: center; margin: .5em 0; font-size: 11.5pt; break-inside: avoid; }
+  .eq i { font-family: "Times New Roman", serif; }
+  .cover { height: 24.5cm; display: flex; flex-direction: column; justify-content: space-between; text-align: center; break-after: page; }
+  .cover h1 { font-size: 26pt; margin: 0 0 .2em; text-align: center; line-height: 1.2; }
+  .cover .sub { font-size: 13pt; margin: 0 8%; }
+  .cover .tag { font: 600 12pt Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #e63946; }
+  .cover table { width: 88%; margin: .8em auto; font-size: 11pt; }
+  .cover td { height: 1.5em; }
+  .cover .uni { font: 700 17pt Arial, sans-serif; color: #1d3557; margin: .5em 0 .1em; text-align: center; }
+  .cover .subj { font: 600 12pt Arial, sans-serif; margin: 0; text-align: center; }
+  .cover th { text-align: center; }
+  .cover td.l { width: 34%; background: #f4f7fa; font-family: Arial, sans-serif; font-size: 10pt; }
+  .note { border: 1px solid #e63946; background: #fff5f5; padding: 6px 10px; font-size: 10.5pt; text-align: left; margin: .8em 0; }
+  .flow { display: flex; align-items: stretch; margin: .8em 0; font: 9pt Arial, sans-serif; text-align: center; break-inside: avoid; }
+  .flow div { flex: 1; border: 1px solid #1d3557; background: #eef3f8; padding: 6px 3px; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
+  .flow span { align-self: center; padding: 0 3px; color: #1d3557; font-size: 12pt; }
+  .stack { display: flex; flex-direction: column; gap: 5px; margin: .8em 0; font: 9.5pt Arial, sans-serif; break-inside: avoid; }
+  .stack .row { display: flex; gap: 6px; }
+  .stack .row div { flex: 1; border: 1px solid #1d3557; background: #eef3f8; padding: 6px 4px; border-radius: 3px; text-align: center; }
+  .stack .row div.hl { background: #fff5f5; border-color: #e63946; }
+  .stack .lbl { font-weight: 700; color: #1d3557; font-size: 9pt; text-transform: uppercase; letter-spacing: .06em; }
+  .fig { text-align: center; margin: .7em 0 .2em; break-inside: avoid; }
+  .fig img { max-width: 100%; }
+  .figs { display: flex; gap: 10px; justify-content: center; }
+  .figs img { width: 49%; }
+  .cap { font-size: 9.5pt; color: #333; text-align: left; margin: .1em 0 .7em; }
+  .toc { list-style: none; margin: 0; padding: 0; font-size: 10.2pt; line-height: 1.25; }
+  .toc li { display: flex; margin: .02em 0; }
+  .toc .t { flex: none; }
+  .toc .dots { flex: 1; border-bottom: 1px dotted #666; margin: 0 4px 4px; }
+  .toc .pg { flex: none; }
+  .toc li.sub { margin-left: 1.6em; font-size: 10.5pt; margin-top: .1em; margin-bottom: .1em; color: #333; }
+  .sig td { height: 1cm; vertical-align: bottom; text-align: center; border: none; }
+  .refs li { margin: .35em 0; text-align: left; }
+  dl { margin: .4em 0; } dt { break-after: avoid; font-weight: 700; font-family: Arial, sans-serif; font-size: 10.5pt; margin-top: .5em; } dd { margin: 0 0 0 1.4em; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="cover">
+  <div>
+    <img src="srmu_logo.png" alt="SRMU logo" style="height:4.2cm">
+    <p class="uni">Shri Ramswaroop Memorial University</p>
+    <p class="subj">PROJECT-II (UCS7702PJ)</p>
+  </div>
+
+  <div>
+    <p class="tag">Project Synopsis</p>
+    <h1>PulseCam</h1>
+    <p class="sub"><b>Contactless Heart-Rate and Pulse-Waveform Estimation from Webcam Face Video using Deep Learning (rPPG)</b></p>
+  </div>
+
+  <div>
+    <table>
+      <tr><th colspan="3">Submitted by</th></tr>
+      <tr><td class="l" style="width:8%">1.</td><td>Ruchi Singh</td><td>202310101150025</td></tr>
+      <tr><td class="l">2.</td><td>Aryan Singh</td><td>202310101150038</td></tr>
+      <tr><td class="l">3.</td><td>Ananya Dwivedi</td><td>202310101150039</td></tr>
+    </table>
+    <table>
+      <tr><td class="l">Course</td><td>B.Tech CS (DS + AI)</td></tr>
+      <tr><td class="l">Semester</td><td>VII</td></tr>
+      <tr><td class="l">Group</td><td>71, 72</td></tr>
+      <tr><td class="l">Subject</td><td>PROJECT-II (UCS7702PJ)</td></tr>
+      <tr><td class="l">Faculty</td><td>Er. Arun Maurya</td></tr>
+      <tr><td class="l">Date</td><td>November 2026</td></tr>
+    </table>
+    <p class="note"><b>Research prototype. PulseCam is not a medical device and must not be used for diagnosis or treatment decisions.</b></p>
+  </div>
+</section>
+
+<!-- ============ DECLARATION ============ -->
+<h2 style="margin-top:0">Declaration</h2>
+<p>We hereby declare that the project synopsis entitled <b>“PulseCam: Contactless Heart-Rate and Pulse-Waveform Estimation from Webcam Face Video using Deep Learning (rPPG)”</b>, submitted for PROJECT-II (UCS7702PJ), B.Tech CS (DS + AI), Semester VII, Shri Ramswaroop Memorial University, is a record of our own work carried out under the guidance of Er. Arun Maurya.</p>
+<p>The results reported here were produced by the code in our project repository. Where we use the released models and datasets of other researchers (rPPG-Toolbox, UBFC-rPPG, PURE, SCAMPS), they are cited in the references. Experiments that could not be completed because they need volunteer recordings are marked as pending, and no results are claimed for them.</p>
+<table class="sig">
+  <tr><td>Ruchi Singh<br>202310101150025</td><td>Aryan Singh<br>202310101150038</td><td>Ananya Dwivedi<br>202310101150039</td></tr>
+</table>
+
+<h2 style="margin-top:.8em">Acknowledgement</h2>
+<p>We thank our faculty guide, <b>Er. Arun Maurya</b>, for his guidance and for reviewing the direction of this project, and Shri Ramswaroop Memorial University for the opportunity to carry out it as part of PROJECT-II. We are grateful to the researchers who made their work openly available: the authors of the UBFC-rPPG, PURE and SCAMPS datasets and of the rPPG-Toolbox, on which our evaluation is built. The project uses only free and open-source tools, which made it possible to complete it with no budget.</p>
+
+<!-- ============ CONTENTS ============ -->
+<h2>Contents</h2>
+<ul class="toc">
+  <li><span class="t">1. Abstract</span><span class="dots"></span><span class="pg">3</span></li>
+  <li><span class="t">2. Introduction and Background</span><span class="dots"></span><span class="pg">3</span></li>
+  <li><span class="t">3. Problem Statement</span><span class="dots"></span><span class="pg">4</span></li>
+  <li><span class="t">4. Objectives and Research Questions</span><span class="dots"></span><span class="pg">4</span></li>
+  <li><span class="t">5. Scope</span><span class="dots"></span><span class="pg">4</span></li>
+  <li><span class="t">6. Literature Survey</span><span class="dots"></span><span class="pg">5</span></li>
+  <li><span class="t">7. Signal Model and Theory</span><span class="dots"></span><span class="pg">6</span></li>
+  <li><span class="t">8. Proposed Methodology</span><span class="dots"></span><span class="pg">7</span></li>
+  <li><span class="t">9. System Design and Implementation</span><span class="dots"></span><span class="pg">8</span></li>
+  <li><span class="t">10. Datasets and Data Collection</span><span class="dots"></span><span class="pg">9</span></li>
+  <li><span class="t">11. Tools and Requirements</span><span class="dots"></span><span class="pg">10</span></li>
+  <li><span class="t">12. Progress and Results to Date</span><span class="dots"></span><span class="pg">10</span></li>
+  <li><span class="t">13. Testing and Verification</span><span class="dots"></span><span class="pg">12</span></li>
+  <li><span class="t">14. Risk Analysis</span><span class="dots"></span><span class="pg">12</span></li>
+  <li><span class="t">15. Expected Outcomes and Deliverables</span><span class="dots"></span><span class="pg">12</span></li>
+  <li><span class="t">16. Ethics and Privacy</span><span class="dots"></span><span class="pg">12</span></li>
+  <li><span class="t">17. Limitations and Future Scope</span><span class="dots"></span><span class="pg">13</span></li>
+  <li><span class="t">18. Conclusion</span><span class="dots"></span><span class="pg">13</span></li>
+  <li><span class="t">19. Work Plan</span><span class="dots"></span><span class="pg">13</span></li>
+  <li><span class="t">20. References</span><span class="dots"></span><span class="pg">14</span></li>
+</ul>
+
+<!-- ============ 1 ============ -->
+<h2>1. Abstract</h2>
+<p>PulseCam estimates a person's resting heart rate (beats per minute, BPM) and pulse waveform from ordinary webcam video of the face, in real time and without touching the person. It uses <i>remote photoplethysmography</i> (rPPG): each heartbeat slightly changes how much light the facial skin absorbs, and a 30 fps camera can record this tiny periodic colour change. The system detects the face, extracts skin regions, passes them through either a classical signal-processing method or a deep neural network (TS-CAN), band-pass filters the result to 0.7–3.0 Hz and reads the heart rate from the strongest frequency. We compare four classical methods (GREEN, ICA, CHROM, POS) with deep models on the public UBFC-rPPG dataset, study cross-dataset transfer, and plan robustness and skin-tone tests on volunteers. A local web application provides a 30-second live measurement and a video-upload mode. On all 42 UBFC-rPPG subjects the TS-CAN model reaches a mean absolute error of 1.80 BPM (best classical baseline, CHROM: 2.00 BPM).</p>
+<p><b>Keywords:</b> remote photoplethysmography, heart rate, TS-CAN, deep learning, computer vision, skin-tone fairness, UBFC-rPPG.</p>
+
+<!-- ============ 2 ============ -->
+<h2>2. Introduction and Background</h2>
+<p>Heart rate is normally measured by contact: a finger clip, chest strap or smartwatch. Contact sensors are inconvenient for long monitoring, for infants and for tele-consultation, where only a camera is available. rPPG removes the sensor and needs only a camera that most people already own.</p>
+<h3>2.1 Physiological basis</h3>
+<p>With every heartbeat the volume of blood in the small vessels under the skin rises and falls. Haemoglobin absorbs light, and it absorbs green light most strongly, so more blood means slightly less reflected light. The average colour of the face therefore oscillates by a fraction of a percent at the heart rate. At rest the frequency lies between about 0.7 Hz and 3.0 Hz (42–180 BPM). A camera recording at 30 frames per second samples this signal well above the Nyquist rate (the heart-rate band ends at 3 Hz, far below 15 Hz).</p>
+<h3>2.2 Motivation and applications</h3>
+<p>A camera-only measurement needs no sensor to wear, charge or sterilise, suits tele-consultation (as a wellness indicator, not a diagnosis), and is an active research problem that combines computer vision and signal processing.</p>
+<h3>2.3 Why it is hard</h3>
+<p>The pulse signal is tiny compared with everything else that changes the face colour in a video: head movement, speech, changing room light, camera auto-exposure and video compression. Classical methods try to cancel these effects with hand-designed colour mathematics. Deep-learning methods learn to separate pulse from noise directly from data, but they are trained on public datasets dominated by lighter skin tones, and melanin-rich skin gives a weaker signal because melanin absorbs part of the light. How well such models work for Indian users is therefore not well tested. PulseCam builds a complete, working rPPG pipeline, evaluates it honestly and sets up the tests needed to answer this fairness question.</p>
+
+<!-- ============ 3 ============ -->
+<h2>3. Problem Statement</h2>
+<p>To design, implement and evaluate a low-cost, camera-only system that estimates resting heart rate and pulse waveform from live face video with an error below 5 BPM on still, well-lit clips, and to find out how its accuracy changes with movement, talking, dim light and skin tone, using only free software and a standard webcam (budget ₹0).</p>
+
+<!-- ============ 4 ============ -->
+<h2>4. Objectives and Research Questions</h2>
+<h3>Objectives</h3>
+<ol>
+  <li>Build an end-to-end video → heart-rate pipeline (face detection, skin regions, model, filtering, frequency analysis).</li>
+  <li>Compare classical and deep rPPG methods on a public benchmark.</li>
+  <li>Measure how conditions (still, head movement, talking, dim light) affect accuracy.</li>
+  <li>Measure accuracy across skin tones (Monk Skin Tone scale) and test whether fine-tuning on own recordings helps.</li>
+  <li>Deliver a live demo that runs locally from one command.</li>
+</ol>
+<h3>Research questions</h3>
+<table>
+  <tr><th style="width:8%">RQ</th><th>Question</th><th style="width:16%">Experiment</th></tr>
+  <tr><td>RQ1</td><td>Does a deep model beat the classical baselines (GREEN, ICA, CHROM, POS) on UBFC-rPPG?</td><td>E1</td></tr>
+  <tr><td>RQ2</td><td>How much does accuracy drop when the model is trained on one dataset (PURE or SCAMPS) and tested on another (UBFC)?</td><td>E2</td></tr>
+  <tr><td>RQ3</td><td>Is accuracy lower for darker skin tones, and does fine-tuning on own recordings reduce the gap?</td><td>E4</td></tr>
+  <tr><td>RQ4</td><td>Which condition (movement, talking, dim light) hurts accuracy most?</td><td>E3</td></tr>
+</table>
+
+<!-- ============ 5 ============ -->
+<h2>5. Scope</h2>
+<p><b>In scope:</b></p>
+<ul>
+  <li>Resting heart rate (BPM) and pulse waveform of one frontal face in indoor light.</li>
+  <li>30 fps webcam or video file, processed locally (offline) on a laptop.</li>
+  <li>Comparison of methods on UBFC-rPPG; own volunteer tests (planned).</li>
+</ul>
+<p><b>Out of scope:</b></p>
+<ul>
+  <li>Blood pressure, SpO<sub>2</sub>, arrhythmia detection or any other diagnosis; any clinical or medical use.</li>
+  <li>Multiple faces in one frame; exercise or heart rates outside 42–180 BPM; cloud processing.</li>
+</ul>
+
+<!-- ============ 6 ============ -->
+<h2>6. Literature Survey</h2>
+<p>rPPG was first shown with ordinary ambient light and a consumer camera by Verkruysse et al. (2008). The methods used in this project are summarised below.</p>
+<table>
+  <tr><th style="width:15%">Method</th><th style="width:12%">Type</th><th>Key idea</th></tr>
+  <tr><td>GREEN</td><td>Classical</td><td>Band-pass the mean green channel of the face (Verkruysse et al., 2008). Simple; no motion handling.</td></tr>
+  <tr><td>ICA</td><td>Classical</td><td>Blind source separation of the R, G, B traces to isolate the pulse (Poh et al., 2010).</td></tr>
+  <tr><td>CHROM</td><td>Classical</td><td>Fixed chrominance combination of R, G, B that cancels specular reflection and motion (de Haan &amp; Jeanne, 2013).</td></tr>
+  <tr><td>POS</td><td>Classical</td><td>Projects colour onto the plane orthogonal to the skin-tone vector; the usual strong classical baseline (Wang et al., 2017).</td></tr>
+  <tr><td>DeepPhys</td><td>Deep</td><td>Attention-based CNN using frame differences as the motion representation (Chen &amp; McDuff, 2018).</td></tr>
+  <tr><td>PhysNet</td><td>Deep</td><td>3-D CNN that predicts the pulse waveform from a video clip (Yu et al., 2019).</td></tr>
+  <tr><td>TS-CAN</td><td>Deep</td><td>Efficient temporal-shift attention network for on-device use; takes 72×72 frame differences and predicts the derivative of the pulse (Liu et al., 2020). <b>Used in this project.</b></td></tr>
+  <tr><td>PhysFormer</td><td>Deep</td><td>Transformer backbone for rPPG (Yu et al., 2022).</td></tr>
+</table>
+<p><b>Datasets.</b> UBFC-rPPG (Bobbia et al., 2019): 42 short, well-lit videos with finger-clip PPG ground truth; used for E1 and as the E2 test set. PURE (Stricker et al., 2014): real video with controlled motion. SCAMPS (McDuff et al., 2022): large synthetic, avatar-rendered dataset. <b>Toolbox.</b> rPPG-Toolbox (Liu et al., 2023) provides consistent implementations, released checkpoints and evaluation code; the project reuses it instead of re-implementing models.</p>
+<p><b>Gap.</b> Public datasets contain few darker-skinned and Indian volunteers, so reported accuracy may not transfer. The Monk Skin Tone scale (10 shades, developed for fairness evaluation) is used to group volunteers, and PulseCam's E3/E4 experiments are designed to measure this gap.</p>
+
+<!-- ============ 7 ============ -->
+<h2>7. Signal Model and Theory</h2>
+<h3>7.1 The pulse signal in the video</h3>
+<p>Let <i>c</i>(<i>t</i>) = (R, G, B) be the average colour of the skin pixels in frame <i>t</i>. A simple model is a constant skin colour plus a small pulse-dependent change and noise:</p>
+<div class="eq"><i>c</i>(<i>t</i>) = <i>c</i><sub>0</sub> · (1 + <i>p</i>(<i>t</i>) · <b>a</b> + <i>m</i>(<i>t</i>)) + <i>n</i>(<i>t</i>)</div>
+<p>where <i>p</i>(<i>t</i>) is the pulse (a roughly periodic wave at the heart-rate frequency), <b>a</b> is the strength of the pulse in each colour channel (largest in green), <i>m</i>(<i>t</i>) is motion and lighting change, and <i>n</i>(<i>t</i>) is camera noise. Every rPPG method is a way to recover <i>p</i>(<i>t</i>) while suppressing <i>m</i> and <i>n</i>.</p>
+
+<h3>7.2 Classical methods</h3>
+<p><b>GREEN</b> uses the green channel directly. <b>ICA</b> treats R, G, B as mixtures and separates independent sources, picking the one with the clearest peak. <b>CHROM</b> forms two chrominance signals from normalised colour channels so that specular reflections cancel, then combines them. <b>POS</b> (Plane-Orthogonal-to-Skin), implemented in <code>pulsecam/signal.py</code>, works on short windows of <i>L</i> = 1.6 s (48 frames at 30 fps):</p>
+<div class="eq"><i>C</i><sub>n</sub> = <i>C</i> / mean(<i>C</i>) &nbsp;&nbsp;&nbsp; <i>S</i> = <i>P</i> · <i>C</i><sub>n</sub>, &nbsp; <i>P</i> = [[0, 1, −1], [−2, 1, 1]]</div>
+<div class="eq"><i>h</i> = <i>S</i><sub>1</sub> + (σ(<i>S</i><sub>1</sub>) / σ(<i>S</i><sub>2</sub>)) · <i>S</i><sub>2</sub></div>
+<p>Dividing by the window mean removes the skin tone and brightness; <i>P</i> projects onto the plane orthogonal to the skin-tone direction, where specular and motion changes are small; the σ ratio re-balances the two projections. The windows <i>h</i> are overlap-added over the whole clip to give the pulse signal.</p>
+
+<h3>7.3 Deep model: TS-CAN</h3>
+<p>TS-CAN (temporal-shift convolutional attention network) has two branches. The <i>appearance branch</i> looks at the raw face frame and learns an attention mask that says which skin regions carry the pulse. The <i>motion branch</i> looks at the normalised frame difference and uses <i>temporal shift modules</i>, which move part of the feature channels one step forward or back in time so that a 2-D CNN can model time at almost no extra cost. In PulseCam:</p>
+<ul>
+  <li>input is a 72 × 72 face crop (the face box enlarged 1.5×), processed in clips of 10 frames;</li>
+  <li>the output is the <i>derivative</i> of the pulse waveform, so PulseCam integrates it with a cumulative sum;</li>
+  <li>integration turns noise into slow drift, which is removed with the toolbox's smoothness-priors detrend (λ = 100) before filtering. Adding this step lowered the window MAE on all 42 UBFC subjects (2.01 → 1.80 BPM for the PURE weights).</li>
+</ul>
+
+<h3>7.4 Band-pass filter and heart-rate estimate</h3>
+<p>The pulse signal is linearly detrended and filtered with a 3rd-order Butterworth band-pass, applied forwards and backwards (zero phase shift), between 0.7 Hz and 3.0 Hz. A Hann window is applied, the signal is zero-padded to a power of two at least 8× its length (frequency steps of about 0.01 Hz, i.e. well under 1 BPM) and its power spectrum is computed with the FFT. The heart rate is read from the strongest peak in the band:</p>
+<div class="eq">HR = 60 · <i>f</i><sub>peak</sub> &nbsp;&nbsp; (BPM, with <i>f</i><sub>peak</sub> in Hz)</div>
+<p>A signal-to-noise ratio (power within ±0.1 Hz of the peak and its second harmonic versus the rest of the band, in dB) is used to warn the user about unreliable measurements.</p>
+
+<!-- ============ 8 ============ -->
+<h2>8. Proposed Methodology</h2>
+<h3>8.1 Processing pipeline</h3>
+<div class="flow">
+  <div>Video<br>30 fps</div><span>→</span>
+  <div>Face box + skin ROIs (MediaPipe)</div><span>→</span>
+  <div>Crop 72×72, normalise</div><span>→</span>
+  <div>Model<br>POS or TS-CAN</div><span>→</span>
+  <div>Band-pass 0.7–3.0 Hz</div><span>→</span>
+  <div>FFT peak<br>HR = 60·f<sub>peak</sub></div>
+</div>
+<p class="cap">Figure 1. PulseCam processing pipeline. TS-CAN outputs the derivative of the pulse, which is integrated (cumulative sum) before filtering.</p>
+
+<h3>8.2 Face detection and skin regions</h3>
+<p>The MediaPipe BlazeFace short-range detector finds the largest face in each frame. The box is smoothed over time (exponential smoothing, factor 0.6) so that small detector jitter does not move the measurement area.</p>
+<p>Three skin regions of interest (ROIs) are taken as fixed fractions of the face box: the forehead (flat, rarely moves with speech) and both cheeks (large, well-perfused skin).</p>
+<p>The mean RGB over the three ROIs gives one colour sample per frame for the classical methods (POS and the others). For TS-CAN a square crop around the face, enlarged 1.5× and resized to 72 × 72, is used instead, matching the toolbox's preprocessing.</p>
+
+<h3>8.3 Live tracker</h3>
+<p>The live demo keeps a rolling 10-second buffer (300 frames). Once per second a new estimate is computed on the most recent 10 seconds (resampled to a uniform 30 fps) and the <b>median of the last five estimates</b> is shown, which suppresses single wrong peaks. Warnings are shown when the face moves too much (<i>Hold still</i>), the face is too dark (<i>Too dark</i>), the SNR is below −3 dB (<i>Weak signal</i>) or no face is found.</p>
+
+<h3>8.4 Training and evaluation protocol</h3>
+<ul>
+  <li>Start from the toolbox's pre-trained TS-CAN weights; train and validate on one dataset, test on another.</li>
+  <li><b>Splits are by person:</b> one person's videos appear in exactly one of train, validation or test. Otherwise the model could memorise a face and the test would be too easy.</li>
+  <li>Own recordings have a reference heart-rate number but no waveform, so fine-tuning uses POS pseudo-labels; accuracy is scored against the reference device, never against the pseudo-labels (that would be circular).</li>
+  <li>Every 10-second window is scored against the heart rate of the ground-truth PPG in the same window; “per video” results are the median over each video's windows.</li>
+</ul>
+
+<h3>8.5 Experiments</h3>
+<table>
+  <tr><th style="width:6%">#</th><th style="width:27%">Train</th><th style="width:33%">Test</th><th>Answers</th></tr>
+  <tr><td>E1</td><td>Released TS-CAN weights + four classical methods</td><td>UBFC-rPPG (42 subjects)</td><td>RQ1</td></tr>
+  <tr><td>E2</td><td>PURE or SCAMPS</td><td>UBFC-rPPG</td><td>RQ2</td></tr>
+  <tr><td>E3</td><td>Best of E1/E2</td><td>Own clips: still, moving head, talking, dim light</td><td>RQ4</td></tr>
+  <tr><td>E4</td><td>Best model, before / after fine-tuning</td><td>Own clips grouped by Monk skin-tone band</td><td>RQ3</td></tr>
+  <tr><td>E5</td><td>Final model</td><td>1-minute live sessions vs a reference device</td><td>Demo reliability</td></tr>
+</table>
+<p><b>Team targets:</b> beat every classical baseline on E1; mean absolute error below 5 BPM on still, well-lit clips.</p>
+
+<h3>8.6 Evaluation metrics</h3>
+<p>For <i>N</i> windows with predicted heart rate <i>p</i><sub>i</sub> and reference <i>t</i><sub>i</sub> (BPM):</p>
+<div class="eq">MAE = (1/<i>N</i>) Σ |<i>p</i><sub>i</sub> − <i>t</i><sub>i</sub>| &nbsp;&nbsp;&nbsp; RMSE = √( (1/<i>N</i>) Σ (<i>p</i><sub>i</sub> − <i>t</i><sub>i</sub>)² ) &nbsp;&nbsp;&nbsp; MAPE = (100/<i>N</i>) Σ |<i>p</i><sub>i</sub> − <i>t</i><sub>i</sub>| / <i>t</i><sub>i</sub></div>
+<p><b>MAE</b> is the main metric; <b>RMSE</b> punishes large errors more, <b>Pearson r</b> shows whether predictions follow the reference, and a <b>Bland–Altman plot</b> shows the bias and the limits of agreement (bias ± 1.96·SD), the standard way to compare two measuring methods.</p>
+
+<!-- ============ 9 ============ -->
+<h2>9. System Design and Implementation</h2>
+<p>PulseCam is a small Python application. The browser captures the webcam, the server does all the processing locally and nothing is sent to the internet.</p>
+<div class="stack">
+  <div class="lbl">Browser (index.html, no external libraries)</div>
+  <div class="row"><div>Webcam capture (getUserMedia)</div><div>Live view, countdown, charts</div><div>Upload video tab</div><div>Results and Status tabs</div></div>
+  <div class="lbl">Local server (app/server.py: Starlette + uvicorn, http://127.0.0.1:8000)</div>
+  <div class="row"><div class="hl">/ws/live<br>raw frames in, HR out</div><div>/api/upload<br>/api/job/&lt;id&gt;</div><div>/api/results<br>/api/status</div><div>/api/log (E5 log)</div></div>
+  <div class="lbl">pulsecam package</div>
+  <div class="row"><div>face.py<br>MediaPipe, ROIs</div><div>pipeline.py<br>HRTracker</div><div>tscan.py<br>TS-CAN inference</div><div>signal.py<br>POS, band-pass, FFT</div><div>metrics.py<br>MAE, RMSE, BA</div></div>
+  <div class="lbl">Models and data</div>
+  <div class="row"><div>PURE_TSCAN.pth (toolbox release)</div><div>blaze_face_short_range.tflite</div><div>results/tables, results/plots</div></div>
+</div>
+<p class="cap">Figure 2. Architecture of the local web application.</p>
+
+<p>The <code>pulsecam</code> package holds the face tracker, signal processing (POS, band-pass, detrend, FFT), TS-CAN inference, the live <code>HRTracker</code> and the metrics; <code>eval/</code> holds the experiment scripts and <code>toolbox_patch/</code> a loader that lets the rPPG-Toolbox read own recordings with a person-wise split. Two engineering decisions matter most: the browser streams <b>raw, uncompressed frames</b> (a lossy re-encode of one UBFC clip made POS read 62 BPM instead of 107 BPM), and TS-CAN runs in a <b>background thread</b>, because one estimate takes 2.5–4 s on a laptop CPU, so capture stays at 20–25 fps.</p>
+
+<!-- ============ 10 ============ -->
+<h2>10. Datasets and Data Collection</h2>
+<h3>10.1 Public datasets</h3>
+<table>
+  <tr><th style="width:15%">Dataset</th><th style="width:15%">Type</th><th>Content and use in PulseCam</th></tr>
+  <tr><td>UBFC-rPPG</td><td>Real</td><td>42 videos of seated, mostly still people in indoor light, with finger-clip PPG ground truth. Used for E1 (all methods) and as the test set of E2; also for the person-wise fine-tuning study (30 train / 6 validation / 6 test people).</td></tr>
+  <tr><td>PURE</td><td>Real</td><td>Videos with controlled head-motion tasks. Its toolbox-released TS-CAN checkpoint is used in E1/E2; the data itself was not downloaded.</td></tr>
+  <tr><td>SCAMPS</td><td>Synthetic</td><td>Avatars rendered with simulated pulse. Its released TS-CAN checkpoint is used in E2; the data itself was not downloaded.</td></tr>
+  <tr><td>Own recordings</td><td>Real</td><td>15–20 consenting volunteers with a spread of Monk skin-tone shades, four 1-minute clips each (planned, see 10.2).</td></tr>
+</table>
+
+<h3>10.2 Own-recording protocol</h3>
+<p>After written consent, each volunteer (ID P01, P02, …; names never used in files) rests for 2 minutes and records four 1-minute clips at 30 fps about 1 m from the camera: <i>still</i>, <i>slow head movement</i>, <i>talking</i> and <i>dim light</i>. Camera filters are turned off and files are never re-encoded. A reference heart rate (pulse oximeter, smartwatch or a 60-second manual count) is logged for every clip, together with the Monk skin shade, age group and glasses in a private metadata file.</p>
+
+<!-- ============ 11 ============ -->
+<h2>11. Tools and Requirements</h2>
+<table>
+  <tr><th style="width:24%">Category</th><th>Items (all free; total budget ₹0)</th></tr>
+  <tr><td>Languages / libraries</td><td>Python, PyTorch, NumPy, SciPy, OpenCV, MediaPipe, Starlette / uvicorn</td></tr>
+  <tr><td>Framework</td><td>rPPG-Toolbox (released PURE and SCAMPS TS-CAN checkpoints, preprocessing, evaluation)</td></tr>
+  <tr><td>Datasets</td><td>UBFC-rPPG, PURE, SCAMPS (public); own volunteer recordings (private)</td></tr>
+  <tr><td>Compute</td><td>Student laptop (CPU) for the demo; Google Colab free GPU for evaluation and fine-tuning</td></tr>
+  <tr><td>Hardware</td><td>Standard 30 fps webcam; pulse oximeter or smartwatch as heart-rate reference (for E3–E5)</td></tr>
+  <tr><td>Other</td><td>Git / GitHub (private repository); written consent forms for volunteers</td></tr>
+</table>
+
+<!-- ============ 12 ============ -->
+<h2>12. Progress and Results to Date</h2>
+<p>The pipeline, evaluation scripts, toolbox patch (a loader for own recordings) and the web demo are implemented and tested. E1 and E2 are complete on all 42 UBFC-rPPG subjects: every 10-second window (step 5 s; 490 windows per method) was scored against the heart rate of the ground-truth PPG in the same window.</p>
+<table>
+  <tr><th>Method</th><th class="n">MAE (BPM)</th><th class="n">RMSE (BPM)</th><th class="n">Pearson r</th><th class="n">MAE per video, median (BPM)</th></tr>
+  <tr><td>GREEN</td><td class="n">19.38</td><td class="n">29.97</td><td class="n">0.28</td><td class="n">16.77</td></tr>
+  <tr><td>ICA</td><td class="n">6.73</td><td class="n">15.85</td><td class="n">0.72</td><td class="n">3.65</td></tr>
+  <tr><td>POS</td><td class="n">4.50</td><td class="n">12.94</td><td class="n">0.79</td><td class="n">2.57</td></tr>
+  <tr><td>CHROM</td><td class="n">2.00</td><td class="n">6.03</td><td class="n">0.94</td><td class="n">0.72</td></tr>
+  <tr><td><b>TS-CAN (trained on PURE)</b></td><td class="n"><b>1.80</b></td><td class="n"><b>6.80</b></td><td class="n"><b>0.93</b></td><td class="n"><b>0.72</b></td></tr>
+  <tr><td>TS-CAN (trained on SCAMPS)</td><td class="n">12.83</td><td class="n">22.84</td><td class="n">0.50</td><td class="n">8.94</td></tr>
+  <caption>Table 1. E1/E2 on UBFC-rPPG, 42 subjects. Deep models use the toolbox's released checkpoints.</caption>
+</table>
+
+<h3>12.1 RQ1 – deep versus classical</h3>
+<p>TS-CAN clearly beats GREEN, ICA and POS and narrowly edges out CHROM on window MAE (1.80 vs 2.00 BPM). The two are tied per video (0.72) and CHROM has slightly higher correlation (0.94 vs 0.93), so the margin is small. An earlier run on only 10 subjects had shown a larger gap (0.70 vs 1.08 BPM), which turned out to be an effect of which subjects were in the sample. The target “MAE &lt; 5 BPM on still, well-lit clips” is comfortably met. For ICA, POS and TS-CAN, RMSE is much larger than MAE: a few windows where the method locks onto a wrong frequency dominate the error.</p>
+<div class="figs"><img src="../results/plots/BA_ubfc_TSCAN_PURE.png"><img src="../results/plots/BA_ubfc_POS.png"></div>
+<p class="cap">Figure 3. Bland–Altman plots on UBFC-rPPG (490 windows): TS-CAN trained on PURE (left, bias −0.8 BPM) and POS (right). Most points of TS-CAN lie on the zero line; the wide limits of agreement are caused by a handful of outlier windows.</p>
+
+<h3>12.2 RQ2 – cross-dataset transfer</h3>
+<p>A TS-CAN model trained on real video (PURE) transfers well to UBFC (1.80 BPM), but the same model trained on synthetic SCAMPS does not (12.83 BPM). To check whether this was only a scoring problem, the same face crops were re-scored five different ways, including the toolbox's own preprocessing and post-processing: SCAMPS stayed 6–8 times worse than PURE under every variant (8.6–14.1 vs 1.3–2.0 BPM). The released SCAMPS-trained checkpoint genuinely transfers poorly to real UBFC video; it is not mainly a bug in our scoring.</p>
+
+<h3>12.3 Fine-tuning on UBFC</h3>
+<p>Starting from the released PURE weights, TS-CAN was fine-tuned with a person-wise split (30 train, 6 validation, 6 test people). With learning rate 5e-6 for 3 epochs the test MAE moved from 1.60 to 1.58 BPM per window (0.89 to 0.85 per video); with 5e-5 for 6 epochs the model overfitted (validation MAE rose from 1.58 to 2.04–2.97). A 0.02 BPM change is noise, so <b>no gain is claimed</b> and the released PURE weights remain the demo's default model; a real gain would have to come from own recordings with other skin tones (E4).</p>
+
+<h3>12.4 Still pending</h3>
+<p>E3, E4 and E5 (and therefore RQ3 and RQ4) need volunteer recordings, signed consents and a reference device. They are not yet collected, and no result is claimed for them.</p>
+
+<!-- ============ 13 ============ -->
+<h2>13. Testing and Verification</h2>
+<p>Six automated unit tests (pytest) check the FFT heart-rate estimate, the detrend, POS, the metrics and the no-face case; all pass. End to end, a UBFC clip gave 107.2 BPM against a reference of 106.7 BPM offline, the same 107.2 BPM through the upload page, and converged to ~107 BPM when its frames were streamed over the live WebSocket; a simulated 72 BPM camera in Chrome gave 72 BPM. The own-data loader was checked on synthetic videos (no person in two splits). A live run with a real person at a webcam is not yet verified.</p>
+
+<!-- ============ 14 ============ -->
+<h2>14. Risk Analysis</h2>
+<table>
+  <tr><th style="width:26%">Risk</th><th style="width:12%">Impact</th><th>Mitigation</th></tr>
+  <tr><td>Too few volunteers, or too little skin-tone spread</td><td>High</td><td>Recruit early (family, hostel, classmates); state the sample size honestly; do not claim results for groups with too few people</td></tr>
+  <tr><td>No reference device available</td><td>High</td><td>Use a cheap oximeter, a smartwatch, or a 60-second manual count; record the method in the metadata</td></tr>
+  <tr><td>Video compression or camera filters hide the pulse</td><td>Medium</td><td>Record at 30 fps with filters off; never re-encode; stream raw frames in the app</td></tr>
+  <tr><td>Demo fails on the day (lighting, camera)</td><td>Medium</td><td>Daylight, plain background; pre-recorded backup video; upload mode as an alternative</td></tr>
+</table>
+
+<!-- ============ 15 ============ -->
+<h2>15. Expected Outcomes and Deliverables</h2>
+<ul>
+  <li>Working local demo: live 30-second measurement and video upload (<code>python app/server.py</code>).</li>
+  <li>Reproducible results tables and Bland–Altman plots for E1–E2 (and E3–E5 once data exist).</li>
+  <li>Answers to RQ1–RQ4, stated honestly, including where the deep model does not outperform the baselines.</li>
+  <li>Source code on GitHub with setup instructions, final report, viva slides and a short backup demo video.</li>
+  <li>Own-recordings dataset and a fine-tuned model, kept only if it beats the released weights on held-out people.</li>
+</ul>
+
+<!-- ============ 16 ============ -->
+<h2>16. Ethics and Privacy</h2>
+<ul>
+  <li><b>Consent.</b> Written, informed consent before any recording, with the right to withdraw and have data deleted; data handled in line with India's Digital Personal Data Protection Act, 2023.</li>
+  <li><b>Storage.</b> Videos and consent forms stay on a private drive and never go to GitHub; files use IDs, not names. Faces appear in documents only with the volunteer's explicit permission.</li>
+  <li><b>Honesty.</b> PulseCam is not a medical device; the app, report and consent form all say so.</li>
+</ul>
+
+<!-- ============ 17 ============ -->
+<h2>17. Limitations and Future Scope</h2>
+<p><b>Limitations.</b> Resting, frontal, indoor, single-face, 30 fps video only; UBFC-rPPG is an easy benchmark (still people, good light, uncompressed video); the deep models are the toolbox's released checkpoints; and there are no skin-tone or robustness results yet because no volunteer data has been collected.</p>
+<p><b>Future scope.</b> Collect the volunteer dataset and run E3–E5 with a person-wise fine-tune; test newer models (PhysNet, PhysFormer) through the same toolbox; add respiration rate and heart-rate variability from the same signal; port the demo to a phone browser.</p>
+
+<!-- ============ 18 ============ -->
+<h2>18. Conclusion</h2>
+<p>PulseCam shows that a complete contactless heart-rate pipeline can be built with free tools and a standard webcam. On the UBFC-rPPG benchmark it reaches 1.80 BPM window MAE with TS-CAN and meets the target of under 5 BPM on still, well-lit clips. The deep model narrowly beats the best classical method (CHROM, 2.00 BPM) on the headline metric and only ties it elsewhere, so on easy, controlled video a well-tuned classical method is almost as good. The more interesting questions are about harder conditions and different skin tones, for which the experiments and the recording protocol are ready and which need volunteer data to answer.</p>
+
+<!-- ============ 19 ============ -->
+<h2>19. Work Plan</h2>
+<table>
+  <tr><th style="width:5%">#</th><th style="width:24%">Phase</th><th>Activity</th><th style="width:16%">Status</th></tr>
+  <tr><td>1</td><td>Study and set-up</td><td>Literature review, spec, toolbox installation on Colab, data access</td><td>Done (early Oct 2026)</td></tr>
+  <tr><td>2</td><td>Pipeline and demo</td><td>Face/ROI extraction, POS and TS-CAN inference, HR tracker, live demo</td><td>Done (Oct 2026)</td></tr>
+  <tr><td>3</td><td>E1 and E2</td><td>All 42 UBFC subjects, baselines vs deep, cross-dataset transfer, Bland–Altman plots</td><td>Done (21–26 Oct 2026)</td></tr>
+  <tr><td>4</td><td>Fine-tuning</td><td>Person-wise UBFC fine-tune; SCAMPS scoring check</td><td>Done (no gain)</td></tr>
+  <tr><td>5</td><td>Web app and report</td><td>Local web app, report draft, viva slides</td><td>Done (26 Oct 2026)</td></tr>
+  <tr><td>6</td><td>Own data</td><td>Consent forms, reference device, volunteer recordings (Monk bands, four conditions)</td><td>Pending – needs volunteers</td></tr>
+  <tr><td>7</td><td>E3 / E4 / E5</td><td>Robustness, skin-tone and live-vs-reference tests; fine-tune on own data</td><td>Pending</td></tr>
+  <tr><td>8</td><td>Final submission</td><td>Final report, weights, backup demo video, viva</td><td>Pending</td></tr>
+</table>
+
+<!-- ============ 20 ============ -->
+<h2>20. References</h2>
+<ol class="refs">
+  <li>W. Verkruysse, L. O. Svaasand, J. S. Nelson, "Remote plethysmographic imaging using ambient light," <i>Optics Express</i>, 16(26), 2008.</li>
+  <li>M.-Z. Poh, D. J. McDuff, R. W. Picard, "Non-contact, automated cardiac pulse measurements using video imaging and blind source separation," <i>Optics Express</i>, 18(10), 2010.</li>
+  <li>G. de Haan, V. Jeanne, "Robust pulse rate from chrominance-based rPPG," <i>IEEE Trans. Biomedical Engineering</i>, 60(10), 2013.</li>
+  <li>W. Wang, A. C. den Brinker, S. Stuijk, G. de Haan, "Algorithmic principles of remote PPG," <i>IEEE Trans. Biomedical Engineering</i>, 64(7), 2017.</li>
+  <li>W. Chen, D. McDuff, "DeepPhys: Video-based physiological measurement using convolutional attention networks," <i>ECCV</i>, 2018.</li>
+  <li>Z. Yu, X. Li, G. Zhao, "Remote photoplethysmograph signal measurement from facial videos using spatio-temporal networks," <i>BMVC</i>, 2019.</li>
+  <li>X. Liu, J. Fromm, S. Patel, D. McDuff, "Multi-task temporal shift attention networks for on-device contactless vitals measurement," <i>NeurIPS</i>, 2020.</li>
+  <li>Z. Yu, Y. Shen, J. Shi, H. Zhao, P. Torr, G. Zhao, "PhysFormer: Facial video-based physiological measurement with temporal difference transformer," <i>CVPR</i>, 2022.</li>
+  <li>X. Liu et al., "rPPG-Toolbox: Deep remote PPG toolbox," <i>NeurIPS Datasets and Benchmarks</i>, 2023.</li>
+  <li>S. Bobbia, R. Macwan, Y. Benezeth, A. Mansouri, J. Dubois, "Unsupervised skin tissue segmentation for remote photoplethysmography," <i>Pattern Recognition Letters</i>, 124, 2019 (UBFC-rPPG).</li>
+  <li>R. Stricker, S. Müller, H.-M. Gross, "Non-contact video-based pulse rate measurement on a mobile service robot," <i>IEEE RO-MAN</i>, 2014 (PURE).</li>
+  <li>D. McDuff, M. Wander, X. Liu, et al., "SCAMPS: Synthetics for camera measurement of physiological signals," <i>NeurIPS</i>, 2022.</li>
+  <li>M. P. Tarvainen, P. O. Ranta-aho, P. A. Karjalainen, "An advanced detrending method with application to HRV analysis," <i>IEEE Trans. Biomedical Engineering</i>, 49(2), 2002.</li>
+  <li>J. M. Bland, D. G. Altman, "Statistical methods for assessing agreement between two methods of clinical measurement," <i>The Lancet</i>, 327(8476), 1986.</li>
+  <li>Government of India, "The Digital Personal Data Protection Act, 2023."</li>
+</ol>
+
+<table class="sig">
+  <tr><td>Team members</td><td>Faculty: Er. Arun Maurya</td><td>Head of department</td></tr>
+</table>
+
+</body>
+</html>
